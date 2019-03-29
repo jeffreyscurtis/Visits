@@ -85,49 +85,34 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8f-nT-kxH">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
-                                    <subviews>
-                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
-                                        </mapView>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
-                                            <rect key="frame" x="60" y="182" width="255" height="29"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="28" id="bI4-Cn-ri4"/>
-                                            </constraints>
-                                            <segments>
-                                                <segment title="Plain"/>
-                                                <segment title="Satellite"/>
-                                                <segment title="Hybrid"/>
-                                                <segment title="Muted"/>
-                                            </segments>
-                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <connections>
-                                                <action selector="setMapType:" destination="Ta0-SK-04C" eventType="valueChanged" id="KzS-g4-0ia"/>
-                                            </connections>
-                                        </segmentedControl>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxe-XS-eEe">
-                                            <rect key="frame" x="186.5" y="216.5" width="2.5" height="3.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" red="0.1647058824" green="0.36862745099999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
+                                    <rect key="frame" x="0.0" y="19" width="375" height="201"/>
+                                </mapView>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
+                                    <rect key="frame" x="60" y="184" width="255" height="29"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="DUk-K2-UgO" secondAttribute="bottom" constant="10" id="aAV-UP-suF"/>
-                                        <constraint firstItem="DUk-K2-UgO" firstAttribute="top" secondItem="Xxc-GO-MMo" secondAttribute="bottom" constant="3" id="av8-Ih-VLm"/>
-                                        <constraint firstItem="Xxc-GO-MMo" firstAttribute="leading" secondItem="b8f-nT-kxH" secondAttribute="leading" id="pNq-gg-ajf"/>
+                                        <constraint firstAttribute="height" constant="28" id="bI4-Cn-ri4"/>
                                     </constraints>
-                                </stackView>
+                                    <segments>
+                                        <segment title="Plain"/>
+                                        <segment title="Satellite"/>
+                                        <segment title="Hybrid"/>
+                                        <segment title="Muted"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="setMapType:" destination="Ta0-SK-04C" eventType="valueChanged" id="KzS-g4-0ia"/>
+                                    </connections>
+                                </segmentedControl>
                             </subviews>
-                            <color key="backgroundColor" red="0.1647058824" green="0.36862745099999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.20000000000000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="0.84013132670000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="b8f-nT-kxH" secondAttribute="bottom" id="BE8-I0-MYg"/>
-                                <constraint firstAttribute="trailing" secondItem="b8f-nT-kxH" secondAttribute="trailing" id="INM-pq-viH"/>
-                                <constraint firstItem="b8f-nT-kxH" firstAttribute="top" secondItem="EfL-ce-bV0" secondAttribute="top" id="gMO-6s-qu3"/>
-                                <constraint firstItem="b8f-nT-kxH" firstAttribute="leading" secondItem="EfL-ce-bV0" secondAttribute="leading" id="gdW-Ud-h56"/>
+                                <constraint firstItem="Xxc-GO-MMo" firstAttribute="top" secondItem="EfL-ce-bV0" secondAttribute="top" constant="19" id="DSt-pY-9As"/>
+                                <constraint firstItem="Xxc-GO-MMo" firstAttribute="leading" secondItem="EfL-ce-bV0" secondAttribute="leading" id="FIN-Es-0cn"/>
+                                <constraint firstItem="DUk-K2-UgO" firstAttribute="centerX" secondItem="Xxc-GO-MMo" secondAttribute="centerX" id="U4T-KP-ohl"/>
+                                <constraint firstItem="DUk-K2-UgO" firstAttribute="centerX" secondItem="EfL-ce-bV0" secondAttribute="centerX" id="bMx-rc-2jC"/>
+                                <constraint firstItem="Xxc-GO-MMo" firstAttribute="centerY" secondItem="EfL-ce-bV0" secondAttribute="centerY" constant="9.5" id="d1O-fD-k32"/>
+                                <constraint firstAttribute="bottom" secondItem="DUk-K2-UgO" secondAttribute="bottom" constant="8" id="lhL-ah-Fd9"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -180,7 +165,7 @@
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="u96-UX-rw3"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksq-BT-yrw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="148" y="-149"/>
+            <point key="canvasLocation" x="148" y="-149.77511244377811"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="8C2-yg-EYp">
