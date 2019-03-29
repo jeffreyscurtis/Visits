@@ -7,14 +7,38 @@
 //
 
 import UIKit
-
+import MapKit
 class MainTableViewController: UITableViewController {
 
+    @IBOutlet weak var mapSegment: UISegmentedControl!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    @IBAction func setMapType(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            mapView.mapType = MKMapType.standard
+            break
+        case 1:
+            mapView.mapType = MKMapType.satellite
+            break
+        case 2:
+            mapView.mapType = MKMapType.hybrid
+            break
+        case 3:
+             mapView.mapType = MKMapType.mutedStandard
+            break;
+        default:
+            mapView.mapType = MKMapType.mutedStandard
+            
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
             self .performSegue(withIdentifier: "showMain", sender: self)
         }
+        mapView.mapType = MKMapType.standard
+        self.mapSegment.selectedSegmentIndex = 0;
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 

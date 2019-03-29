@@ -30,7 +30,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                 <state key="normal">
-                                    <mutableString key="title">This application uses low power significant changes and visit information.  Without enabling always on location services, this application cannot function.  Your location datsa is never sent off the device and is only used locally within the application  Turn On Locations</mutableString>
+                                    <string key="title">This application uses low power significant changes and visit information.  Without enabling always on location services, this application cannot function.  Your location datsa is never sent off the device and is only used locally within the application  Turn On Locations</string>
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -81,17 +81,58 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="separatorColor" red="0.20000000000000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                        <mapView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="YhL-fe-RdY">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="238"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <gestureRecognizers/>
-                            <connections>
-                                <outletCollection property="gestureRecognizers" destination="u96-UX-rw3" appends="YES" id="aG8-xR-qcH"/>
-                            </connections>
-                        </mapView>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="EfL-ce-bV0">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b8f-nT-kxH">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
+                                    <subviews>
+                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="179"/>
+                                        </mapView>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
+                                            <rect key="frame" x="60" y="182" width="255" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="28" id="bI4-Cn-ri4"/>
+                                            </constraints>
+                                            <segments>
+                                                <segment title="Plain"/>
+                                                <segment title="Satellite"/>
+                                                <segment title="Hybrid"/>
+                                                <segment title="Muted"/>
+                                            </segments>
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <connections>
+                                                <action selector="setMapType:" destination="Ta0-SK-04C" eventType="valueChanged" id="KzS-g4-0ia"/>
+                                            </connections>
+                                        </segmentedControl>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxe-XS-eEe">
+                                            <rect key="frame" x="186.5" y="216.5" width="2.5" height="3.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.1647058824" green="0.36862745099999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="DUk-K2-UgO" secondAttribute="bottom" constant="10" id="aAV-UP-suF"/>
+                                        <constraint firstItem="DUk-K2-UgO" firstAttribute="top" secondItem="Xxc-GO-MMo" secondAttribute="bottom" constant="3" id="av8-Ih-VLm"/>
+                                        <constraint firstItem="Xxc-GO-MMo" firstAttribute="leading" secondItem="b8f-nT-kxH" secondAttribute="leading" id="pNq-gg-ajf"/>
+                                    </constraints>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" red="0.1647058824" green="0.36862745099999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="b8f-nT-kxH" secondAttribute="bottom" id="BE8-I0-MYg"/>
+                                <constraint firstAttribute="trailing" secondItem="b8f-nT-kxH" secondAttribute="trailing" id="INM-pq-viH"/>
+                                <constraint firstItem="b8f-nT-kxH" firstAttribute="top" secondItem="EfL-ce-bV0" secondAttribute="top" id="gMO-6s-qu3"/>
+                                <constraint firstItem="b8f-nT-kxH" firstAttribute="leading" secondItem="EfL-ce-bV0" secondAttribute="leading" id="gdW-Ud-h56"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="locationCell" rowHeight="85" id="5We-nB-yfq">
-                                <rect key="frame" x="0.0" y="293.5" width="375" height="85"/>
+                                <rect key="frame" x="0.0" y="275.5" width="375" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5We-nB-yfq" id="QgD-fk-95i">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="84.5"/>
@@ -124,12 +165,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Map"/>
                                 <connections>
-                                    <action selector="mapButtonPressed:" destination="Ta0-SK-04C" eventType="touchUpInside" id="DOn-MB-hf6"/>
+                                    <action selector="mapButtonPressed:" destination="Ta0-SK-04C" eventType="touchUpInside" id="z7V-bc-bmx"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="mapSegment" destination="DUk-K2-UgO" id="B9F-pc-jOQ"/>
+                        <outlet property="mapView" destination="Xxc-GO-MMo" id="EmF-fh-2hp"/>
                         <segue destination="2rw-Eo-Ue6" kind="show" identifier="showMap" id="2nj-Ma-CN5"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="showMain" id="tsz-0j-DaH"/>
                     </connections>
@@ -137,7 +180,7 @@
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="u96-UX-rw3"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksq-BT-yrw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="618" y="-148"/>
+            <point key="canvasLocation" x="148" y="-149"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="8C2-yg-EYp">
@@ -178,7 +221,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <mapView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="HDh-Jb-lOV">
+                        <mapView key="tableHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" id="HDh-Jb-lOV">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="232"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </mapView>
