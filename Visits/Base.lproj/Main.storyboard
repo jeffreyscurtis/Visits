@@ -81,15 +81,15 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="separatorColor" red="0.20000000000000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="EfL-ce-bV0">
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="EfL-ce-bV0">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="132"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
                                 </mapView>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
-                                    <rect key="frame" x="79.5" y="96" width="255" height="29"/>
+                                    <rect key="frame" x="79.5" y="184" width="255" height="29"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="28" id="bI4-Cn-ri4"/>
@@ -116,7 +116,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="locationCell" rowHeight="85" id="5We-nB-yfq">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="blankCell" rowHeight="85" id="5We-nB-yfq">
                                 <rect key="frame" x="0.0" y="275.5" width="414" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5We-nB-yfq" id="QgD-fk-95i">
@@ -127,7 +127,7 @@
                                     <segue destination="rTf-ch-Y5d" kind="show" id="oJO-Rg-QdM"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="locCell3" rowHeight="224" id="ZOP-Gg-Jz4" customClass="JCMapTableViewCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="locationCell" rowHeight="224" id="ZOP-Gg-Jz4" customClass="LocationTableViewCell" customModule="Visits" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="360.5" width="414" height="224"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZOP-Gg-Jz4" id="tBH-jf-Jxi">
@@ -157,7 +157,7 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </view>
-                                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="gLY-yt-QyO" customClass="JSCClickTextViewTableCell">
+                                        <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="gLY-yt-QyO">
                                             <rect key="frame" x="8" y="37" width="278" height="149.5"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="tintColor" red="0.20000000000000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -200,10 +200,10 @@
                                 </tableViewCellContentView>
                                 <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <connections>
-                                    <outlet property="addressLabel" destination="O80-5b-EAp" id="arK-0W-tPH"/>
-                                    <outlet property="headLabel" destination="tqf-em-mhF" id="8f3-Kd-2kt"/>
-                                    <outlet property="locationTextView" destination="gLY-yt-QyO" id="YTE-uw-lwd"/>
-                                    <outlet property="mapImageView" destination="Uyo-Fx-03a" id="sU4-l6-6O4"/>
+                                    <outlet property="BottomLabel" destination="O80-5b-EAp" id="u3h-gf-QSo"/>
+                                    <outlet property="MapImage" destination="Uyo-Fx-03a" id="Bsp-rk-nKC"/>
+                                    <outlet property="TextView" destination="gLY-yt-QyO" id="J3h-57-Ax8"/>
+                                    <outlet property="TopLabel" destination="tqf-em-mhF" id="1JO-Hx-x4F"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
