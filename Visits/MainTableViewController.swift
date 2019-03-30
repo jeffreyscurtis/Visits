@@ -93,7 +93,9 @@ class MainTableViewController: UITableViewController {
         let address = place.postalAddress
         
     
-        cell.TopLabel.text = "Latitude = "
+        cell.TopLabel.text = "\(String(describing: place.location!.timestamp))"
+        cell.TextView.text = "\(String(describing: address!.street))"
+        cell.BottomLabel.text = "Latitude \(place.coordinate.latitude) \n Longitude \(place.coordinate.longitude)"
         // Configure the cell...
 
         return cell
