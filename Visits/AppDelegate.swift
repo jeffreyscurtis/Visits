@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 import Foundation
-
+import MapKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     
@@ -94,10 +94,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("got update")
+        let geocoder = CLGeocoder()
         for location in locations{
+           
+            geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                
+                // Most geocoding requests contain only one result.
+                if let firstPlacemark = placemarks?.first {
+                    //self.mostRecentPlacemark = firstPlacemark
+                    //self.currentCity = firstPlacemark.locality
+                    let place = UserLocation(withPlacemark: firstPlacemark, andLocation: location)
+                    let userLocationDict = place.getUserLocationDictionary()
+                    print(userLocationDict)
+                    
+                    let nc = NotificationCenter.default
+                    nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDict)
+                }
            print(location)
         }
     }
+    }
+    
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch CLLocationManager.authorizationStatus() {
             

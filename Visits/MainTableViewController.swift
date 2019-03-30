@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Contacts
 class MainTableViewController: UITableViewController {
 
     @IBOutlet weak var mapSegment: UISegmentedControl!
@@ -39,16 +40,22 @@ class MainTableViewController: UITableViewController {
         }
         mapView.mapType = MKMapType.standard
         self.mapSegment.selectedSegmentIndex = 0;
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(UpdatePlaceMark), name: Notification.Name("VisitPlaceMark"), object: nil)
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    @objc func UpdatePlaceMark(_ notification:Notification) {
+        let  userLoc = notification.userInfo
+        let loc = CLLocationCoordinate2D(latitude: userLoc?[LocationKeys.Latitude] as! CLLocationDegrees, longitude: userLoc?[LocationKeys.Longitude] as! CLLocationDegrees)
+        let placeMark = MKPlacemark(coordinate: loc, postalAddress: userLoc?[LocationKeys.Address] as! CNPostalAddress)
+        mapView.addAnnotation(placeMark)
+       
 
-    @IBAction func mapButtonPressed(_ sender: UIButton) {
-        print("button pressed");
-        self.performSegue(withIdentifier: "showMap", sender: self)
         
     }
     // MARK: - Table view data source
