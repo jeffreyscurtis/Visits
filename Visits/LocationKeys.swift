@@ -9,5 +9,5 @@
 import Foundation
 enum LocationKeys{
     
-    case Latitude, Longitude, Altitude, Course, City, State, Zip, Speed, Name, Info, Country,Street, Time, Address
+    case Latitude, Longitude, Altitude, Course, City, State, Zip, Speed, Name, Info, Country,Street, Time, Address, Ocean, InlandWater, AreasOfInterest
 }

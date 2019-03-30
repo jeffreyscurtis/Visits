@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import Contacts
 class MainTableViewController: UITableViewController {
+    let application = UIApplication.shared.delegate as! AppDelegate
 
     @IBOutlet weak var mapSegment: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
@@ -33,6 +34,10 @@ class MainTableViewController: UITableViewController {
             
         }
     }
+    @IBAction func mapButtonPressed(_ sender: UIButton){
+        self .performSegue(withIdentifier: "showMap", sender: self)
+    }
+    // required overload used when view is loaded
     override func viewDidLoad() {
         super.viewDidLoad()
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
@@ -40,6 +45,7 @@ class MainTableViewController: UITableViewController {
         }
         mapView.mapType = MKMapType.standard
         self.mapSegment.selectedSegmentIndex = 0;
+        // register for notifcations on Visit Updates
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(UpdatePlaceMark), name: Notification.Name("VisitPlaceMark"), object: nil)
         
@@ -49,11 +55,17 @@ class MainTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    // This is a notification posted when a new location is recieved
+    // The userInfo contains a dictionary of the location data
     @objc func UpdatePlaceMark(_ notification:Notification) {
-        let  userLoc = notification.userInfo
-        let loc = CLLocationCoordinate2D(latitude: userLoc?[LocationKeys.Latitude] as! CLLocationDegrees, longitude: userLoc?[LocationKeys.Longitude] as! CLLocationDegrees)
-        let placeMark = MKPlacemark(coordinate: loc, postalAddress: userLoc?[LocationKeys.Address] as! CNPostalAddress)
-        mapView.addAnnotation(placeMark)
+        
+        mapView.removeAnnotations(mapView.annotations)
+        for mark in self.application.userPlaceMarks{
+            print(mark)
+            print("**")
+        }
+        mapView.addAnnotations(self.application.userPlaceMarks)
        
 
         

@@ -10,12 +10,13 @@ import UIKit
 import CoreLocation
 import Foundation
 import MapKit
+import Contacts
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     
     var locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
     let locationManager = CLLocationManager()
-   
+    var userPlaceMarks = [MKPlacemark]()
     var window: UIWindow?
     
 
@@ -109,8 +110,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     //self.currentCity = firstPlacemark.locality
                     let place = UserLocation(withPlacemark: firstPlacemark, andLocation: location)
                     let userLocationDict = place.getUserLocationDictionary()
-                    print(userLocationDict)
                     
+                    self.userPlaceMarks.append(place.getMapMarker())
                     let nc = NotificationCenter.default
                     nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDict)
                 }

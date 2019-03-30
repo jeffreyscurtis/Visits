@@ -21,7 +21,7 @@ struct UserLocation{
     }
     func getUserLocationDictionary() -> [LocationKeys: Any]{
         
-        var userLocationDictionary = [LocationKeys: Any]()
+        var userLocationDictionary: [LocationKeys: Any]=[:]
         
         userLocationDictionary[LocationKeys.Latitude] = location.coordinate.latitude
         userLocationDictionary[LocationKeys.Longitude] = location.coordinate.longitude
@@ -37,10 +37,20 @@ struct UserLocation{
         userLocationDictionary[LocationKeys.Speed]=location.speed
         userLocationDictionary[LocationKeys.Time]=location.timestamp
         userLocationDictionary[LocationKeys.Address] = place.postalAddress
+        userLocationDictionary[LocationKeys.AreasOfInterest] = place.areasOfInterest
+        userLocationDictionary[LocationKeys.Ocean] = place.ocean
+        userLocationDictionary[LocationKeys.InlandWater] = place.inlandWater
+        
         return userLocationDictionary
-        
-        
     
+    }
+    func getMapMarker()->MKPlacemark{
+        let loc = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        
+        let placeMark = MKPlacemark(coordinate: loc, postalAddress: place.postalAddress!)
+        
+        return placeMark
+        
     }
     
 }
