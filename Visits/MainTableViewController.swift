@@ -52,6 +52,8 @@ class MainTableViewController: UITableViewController {
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(UpdatePlaceMark), name: Notification.Name("VisitPlaceMark"), object: nil)
         
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -64,37 +66,38 @@ class MainTableViewController: UITableViewController {
     @objc func UpdatePlaceMark(_ notification:Notification) {
         
         mapView.removeAnnotations(mapView.annotations)
-        for mark in self.application.userPlaceMarks{
-            print(mark)
-            print("**")
-        }
         mapView.addAnnotations(self.application.userPlaceMarks)
         self.tableView.reloadData()
-       
 
-        
     }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return self.application.userPlaceMarks.count
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return self.application.userPlaceMarks.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
-        let place = self.application.userPlaceMarks[indexPath.item]
-        let address = place.postalAddress
+        print(self.application.userLocations[indexPath.row])
         
-    
+        let place = self.application.userPlaceMarks[indexPath.row]
+        var stringAddress = ""
+        
+        if let address = place.postalAddress{
+            print(address)
+            stringAddress = address.street + " " + address.city + " " + " " + address.state + " " + address.postalCode + " " + address.country
+            
+        }
+        
         cell.TopLabel.text = "\(String(describing: place.location!.timestamp))"
-        cell.TextView.text = "\(String(describing: address!.street))"
+        cell.TextView.text = stringAddress
         cell.BottomLabel.text = "Latitude \(place.coordinate.latitude) \n Longitude \(place.coordinate.longitude)"
         // Configure the cell...
 

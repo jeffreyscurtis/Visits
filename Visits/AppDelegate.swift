@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
     let locationManager = CLLocationManager()
     var userPlaceMarks = [MKPlacemark]()
+    var userLocations = [UserLocation]()
+    var userVisits = [CLVisit]()
     var window: UIWindow?
     
 
@@ -106,18 +108,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 
                 // Most geocoding requests contain only one result.
                 if let firstPlacemark = placemarks?.first {
-                    //self.mostRecentPlacemark = firstPlacemark
-                    //self.currentCity = firstPlacemark.locality
+                    
                     let place = UserLocation(withPlacemark: firstPlacemark, andLocation: location)
                     let userLocationDict = place.getUserLocationDictionary()
-                    
-                    self.userPlaceMarks.append(place.getMapMarker())
+                    //add placemarks and userlocation to app array , this needs to go to a database instead
+                    //we are inserting at 0 so the most recent location is removed first in table view
+                    self.userPlaceMarks.insert(place.getMapMarker(), at: 0)
+                    self.userLocations.insert(place, at: 0)
                     let nc = NotificationCenter.default
                     nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDict)
                 }
-           print(location)
+                //debug print
+                print(location)
+            }
         }
-    }
     }
     
     
