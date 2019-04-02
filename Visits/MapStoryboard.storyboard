@@ -31,11 +31,21 @@
                                     <segment title="Muted"/>
                                 </segments>
                             </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6SI-bs-23d">
+                                <rect key="frame" x="96.5" y="833" width="221" height="29"/>
+                                <segments>
+                                    <segment title="Visits"/>
+                                    <segment title="Locations"/>
+                                    <segment title="All"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="6SI-bs-23d" firstAttribute="centerX" secondItem="ikC-8l-xLe" secondAttribute="centerX" id="0xu-Pw-Msc"/>
                             <constraint firstItem="3d8-kd-RSL" firstAttribute="top" secondItem="ikC-8l-xLe" secondAttribute="top" id="2RC-f1-wVC"/>
                             <constraint firstItem="3d8-kd-RSL" firstAttribute="trailing" secondItem="o5u-l0-wa6" secondAttribute="trailing" id="B99-Oi-HpR"/>
+                            <constraint firstItem="o5u-l0-wa6" firstAttribute="bottom" secondItem="6SI-bs-23d" secondAttribute="bottom" constant="1" id="Jvb-3p-r5b"/>
                             <constraint firstAttribute="bottom" secondItem="3d8-kd-RSL" secondAttribute="bottom" id="bF7-Ib-8KO"/>
                             <constraint firstItem="YpE-rH-SqB" firstAttribute="top" secondItem="o5u-l0-wa6" secondAttribute="top" constant="10" id="edm-oE-KAY"/>
                             <constraint firstItem="3d8-kd-RSL" firstAttribute="leading" secondItem="ikC-8l-xLe" secondAttribute="leading" id="v1O-3M-Iam"/>
