@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cP4-GT-rmV">
+    <device id="retina6_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Title-->
+        <scene sceneID="vA6-md-MzF">
+            <objects>
+                <tableViewController storyboardIdentifier="detailsStoryBoard" id="cP4-GT-rmV" customClass="DetailTableViewController" customModule="Visits" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="WI1-IN-kiK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="FOQ-6K-73t">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="3cr-qC-QdO">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                </mapView>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Czc-Ml-C99">
+                                    <rect key="frame" x="79.666666666666686" y="214" width="255" height="29"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <segments>
+                                        <segment title="Plain"/>
+                                        <segment title="Satellite"/>
+                                        <segment title="Hybrid"/>
+                                        <segment title="Muted"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="Czc-Ml-C99" secondAttribute="bottom" constant="8" id="EZk-yH-iJc"/>
+                                <constraint firstAttribute="trailing" secondItem="3cr-qC-QdO" secondAttribute="trailing" id="Kx9-bi-IiO"/>
+                                <constraint firstAttribute="bottom" secondItem="3cr-qC-QdO" secondAttribute="bottom" id="df9-B3-vfh"/>
+                                <constraint firstItem="3cr-qC-QdO" firstAttribute="top" secondItem="FOQ-6K-73t" secondAttribute="top" id="nzj-PR-8Nc"/>
+                                <constraint firstItem="Czc-Ml-C99" firstAttribute="centerX" secondItem="FOQ-6K-73t" secondAttribute="centerX" id="oWV-f7-vfp"/>
+                                <constraint firstItem="3cr-qC-QdO" firstAttribute="leading" secondItem="FOQ-6K-73t" secondAttribute="leading" id="sik-6E-idy"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detailsCell" rowHeight="317" id="Vro-on-oMH">
+                                <rect key="frame" x="0.0" y="305.33333333333331" width="414" height="316.99999999999994"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vro-on-oMH" id="EfG-g8-I9V">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="316.66666666666669"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="cP4-GT-rmV" id="fhp-l6-hFc"/>
+                            <outlet property="delegate" destination="cP4-GT-rmV" id="pTw-ee-gSe"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="6k8-TE-EqQ">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="2me-Ss-G7e">
+                            <connections>
+                                <action selector="MapButtonPressed:" destination="cP4-GT-rmV" id="Dc8-Lx-6YB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EZe-cG-jEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1552" y="-384"/>
+        </scene>
+    </scenes>
+</document>

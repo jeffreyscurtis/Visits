@@ -18,9 +18,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="City Clipart 27599.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="YfD-Z6-Ceo">
-                                <rect key="frame" x="0.0" y="-280.5" width="375" height="1200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="City Clipart 27599.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="YfD-Z6-Ceo">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tXp-Ku-hfc">
                                 <rect key="frame" x="15" y="647" width="384" height="200"/>
@@ -40,8 +39,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="YfD-Z6-Ceo" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="8a1-JN-rpg"/>
                             <constraint firstAttribute="trailing" secondItem="tXp-Ku-hfc" secondAttribute="trailing" constant="15" id="Hca-GW-wRg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YfD-Z6-Ceo" secondAttribute="trailing" id="VFZ-5g-MBh"/>
                             <constraint firstItem="tXp-Ku-hfc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-15" id="Wit-WT-VHe"/>
+                            <constraint firstAttribute="bottom" secondItem="YfD-Z6-Ceo" secondAttribute="bottom" id="d6W-et-UED"/>
+                            <constraint firstItem="YfD-Z6-Ceo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vA7-NE-7yQ"/>
                             <constraint firstItem="tXp-Ku-hfc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="yAr-2g-N22"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -50,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4" y="858.62068965517244"/>
+            <point key="canvasLocation" x="335" y="628"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5j8-yL-Yaz">
@@ -91,9 +94,6 @@
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
                                     <rect key="frame" x="79.5" y="214" width="255" height="29"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="28" id="bI4-Cn-ri4"/>
-                                    </constraints>
                                     <segments>
                                         <segment title="Plain"/>
                                         <segment title="Satellite"/>
@@ -107,12 +107,12 @@
                             </subviews>
                             <color key="backgroundColor" red="0.20000000000000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="0.84013132670000001" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="Xxc-GO-MMo" firstAttribute="top" secondItem="EfL-ce-bV0" secondAttribute="top" id="DSt-pY-9As"/>
                                 <constraint firstItem="Xxc-GO-MMo" firstAttribute="leading" secondItem="EfL-ce-bV0" secondAttribute="leading" id="FIN-Es-0cn"/>
-                                <constraint firstItem="DUk-K2-UgO" firstAttribute="centerX" secondItem="Xxc-GO-MMo" secondAttribute="centerX" id="U4T-KP-ohl"/>
-                                <constraint firstItem="DUk-K2-UgO" firstAttribute="centerX" secondItem="EfL-ce-bV0" secondAttribute="centerX" id="bMx-rc-2jC"/>
-                                <constraint firstItem="Xxc-GO-MMo" firstAttribute="centerY" secondItem="EfL-ce-bV0" secondAttribute="centerY" id="d1O-fD-k32"/>
+                                <constraint firstItem="Xxc-GO-MMo" firstAttribute="top" secondItem="EfL-ce-bV0" secondAttribute="top" id="RJK-td-rjd"/>
+                                <constraint firstAttribute="trailing" secondItem="Xxc-GO-MMo" secondAttribute="trailing" id="VNO-vI-GGe"/>
+                                <constraint firstItem="DUk-K2-UgO" firstAttribute="centerX" secondItem="EfL-ce-bV0" secondAttribute="centerX" id="cW5-zS-DYp"/>
                                 <constraint firstAttribute="bottom" secondItem="DUk-K2-UgO" secondAttribute="bottom" constant="8" id="lhL-ah-Fd9"/>
+                                <constraint firstAttribute="bottom" secondItem="Xxc-GO-MMo" secondAttribute="bottom" id="usm-6d-KFk"/>
                             </constraints>
                         </view>
                         <prototypes>
@@ -123,9 +123,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="84.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="rTf-ch-Y5d" kind="show" id="oJO-Rg-QdM"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="locationCell" rowHeight="183" id="ZOP-Gg-Jz4" customClass="LocationTableViewCell" customModule="Visits" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="390.5" width="414" height="183"/>
@@ -238,7 +235,6 @@
                     <connections>
                         <outlet property="mapSegment" destination="DUk-K2-UgO" id="B9F-pc-jOQ"/>
                         <outlet property="mapView" destination="Xxc-GO-MMo" id="EmF-fh-2hp"/>
-                        <segue destination="2rw-Eo-Ue6" kind="show" identifier="showMap" id="2nj-Ma-CN5"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="showMain" id="tsz-0j-DaH"/>
                     </connections>
                 </tableViewController>
@@ -246,114 +242,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksq-BT-yrw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="334.78260869565219" y="-133.25892857142856"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="8C2-yg-EYp">
-            <objects>
-                <viewController extendedLayoutIncludesOpaqueBars="YES" id="2rw-Eo-Ue6" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="RFC-fj-Fm6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" mapType="standard" showsScale="YES" showsTraffic="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cQe-ZY-zfR">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </mapView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mOP-jx-UKO">
-                                <rect key="frame" x="80" y="98" width="254" height="29"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="28" id="Svk-BI-Wvr"/>
-                                </constraints>
-                                <segments>
-                                    <segment title="Plain"/>
-                                    <segment title="Satellite"/>
-                                    <segment title="Hybrid"/>
-                                    <segment title="Muted"/>
-                                </segments>
-                                <connections>
-                                    <action selector="setMapType:" destination="Ta0-SK-04C" eventType="valueChanged" id="Ghw-dd-IKB"/>
-                                </connections>
-                            </segmentedControl>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="mOP-jx-UKO" firstAttribute="leading" secondItem="MeR-y7-hxe" secondAttribute="leading" constant="80" id="B0B-UZ-6lK"/>
-                            <constraint firstItem="cQe-ZY-zfR" firstAttribute="top" secondItem="RFC-fj-Fm6" secondAttribute="top" id="G5h-pc-Vge"/>
-                            <constraint firstItem="mOP-jx-UKO" firstAttribute="centerX" secondItem="cQe-ZY-zfR" secondAttribute="centerX" id="NHA-CX-Ft9"/>
-                            <constraint firstItem="mOP-jx-UKO" firstAttribute="centerX" secondItem="RFC-fj-Fm6" secondAttribute="centerX" id="br1-uD-ct0"/>
-                            <constraint firstItem="cQe-ZY-zfR" firstAttribute="leading" secondItem="RFC-fj-Fm6" secondAttribute="leading" id="g7r-It-vBs"/>
-                            <constraint firstItem="mOP-jx-UKO" firstAttribute="top" secondItem="MeR-y7-hxe" secondAttribute="top" constant="10" id="s7i-C0-kKf"/>
-                            <constraint firstAttribute="bottom" secondItem="cQe-ZY-zfR" secondAttribute="bottom" id="sBt-hb-uU6"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="MeR-y7-hxe"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9yI-My-vbg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1782.608695652174" y="289.28571428571428"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="1u8-PS-U8I">
-            <objects>
-                <tableViewController id="rTf-ch-Y5d" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Vit-9R-UO6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="Fdo-kK-auw">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <subviews>
-                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HDh-Jb-lOV">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="162"/>
-                                </mapView>
-                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ntZ-MU-dnN">
-                                    <rect key="frame" x="80" y="126" width="254" height="29"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="28" id="Kob-HU-uJl"/>
-                                    </constraints>
-                                    <segments>
-                                        <segment title="Plain"/>
-                                        <segment title="Satellite"/>
-                                        <segment title="Hybrid"/>
-                                        <segment title="Muted"/>
-                                    </segments>
-                                    <connections>
-                                        <action selector="setMapType:" destination="Ta0-SK-04C" eventType="valueChanged" id="htj-7Z-4IN"/>
-                                    </connections>
-                                </segmentedControl>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="bottom" secondItem="ntZ-MU-dnN" secondAttribute="bottom" constant="8" id="PEX-HB-N4t"/>
-                                <constraint firstAttribute="trailing" secondItem="HDh-Jb-lOV" secondAttribute="trailing" id="VNG-Ow-zn7"/>
-                                <constraint firstItem="ntZ-MU-dnN" firstAttribute="leading" secondItem="Fdo-kK-auw" secondAttribute="leading" constant="80" id="Yba-ds-V23"/>
-                                <constraint firstItem="ntZ-MU-dnN" firstAttribute="centerX" secondItem="HDh-Jb-lOV" secondAttribute="centerX" id="g1s-Aa-Yau"/>
-                                <constraint firstAttribute="bottom" secondItem="HDh-Jb-lOV" secondAttribute="bottom" id="hm0-la-aOA"/>
-                                <constraint firstItem="HDh-Jb-lOV" firstAttribute="leading" secondItem="Fdo-kK-auw" secondAttribute="leading" id="ipH-So-tLV"/>
-                                <constraint firstItem="HDh-Jb-lOV" firstAttribute="top" secondItem="Fdo-kK-auw" secondAttribute="top" id="mKs-lp-O8N"/>
-                            </constraints>
-                        </view>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detailsCell" rowHeight="317" id="6VX-nx-xnq">
-                                <rect key="frame" x="0.0" y="305.5" width="414" height="317"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6VX-nx-xnq" id="FkP-V6-ufJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="316.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="rTf-ch-Y5d" id="5H5-zl-KSB"/>
-                            <outlet property="delegate" destination="rTf-ch-Y5d" id="k1o-9g-AZm"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Mw4-FA-Ypk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1800.0000000000002" y="-419.86607142857139"/>
         </scene>
     </scenes>
     <resources>

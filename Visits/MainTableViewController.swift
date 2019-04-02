@@ -38,7 +38,17 @@ class MainTableViewController: UITableViewController {
         }
     }
     @IBAction func mapButtonPressed(_ sender: UIButton){
-        self .performSegue(withIdentifier: "showMap", sender: self)
+        let storyBoard = UIStoryboard.init(name: "MapStoryboard", bundle: nil)
+        guard let viewController = storyBoard.instantiateInitialViewController() else {
+            print("failed")
+            return
+            
+        }
+        if let navigator = self.navigationController{
+            navigator .pushViewController(viewController, animated: true)
+        }
+        
+        //self .performSegue(withIdentifier: "showMap", sender: self)
     }
     // required overload used when view is loaded
     override func viewDidLoad() {
@@ -104,7 +114,18 @@ class MainTableViewController: UITableViewController {
         return cell
     }
     
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyBoard = UIStoryboard.init(name: "DetailsStoryboard", bundle: nil)
+        guard let viewController = storyBoard.instantiateInitialViewController() else {
+            print("failed")
+            return
+            
+        }
+        if let navigator = self.navigationController{
+            navigator .pushViewController(viewController, animated: true)
+        }
+        
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
