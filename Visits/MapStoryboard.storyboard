@@ -30,6 +30,9 @@
                                     <segment title="Hybrid"/>
                                     <segment title="Muted"/>
                                 </segments>
+                                <connections>
+                                    <action selector="mapButtonPressed:" destination="UoY-C0-8ES" eventType="valueChanged" id="19Z-Xd-0zK"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6SI-bs-23d">
                                 <rect key="frame" x="96.5" y="833" width="221" height="29"/>
@@ -53,6 +56,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="o5u-l0-wa6"/>
                     </view>
+                    <connections>
+                        <outlet property="mapSegment" destination="YpE-rH-SqB" id="ObH-QJ-ERT"/>
+                        <outlet property="mapView" destination="3d8-kd-RSL" id="tF3-kr-hgu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jML-cL-XES" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
