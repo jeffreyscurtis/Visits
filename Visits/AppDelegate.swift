@@ -16,9 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     var locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
     let locationManager = CLLocationManager()
-    var userPlaceMarks = [MKPlacemark]()
+    
+    //location data structures
+    var userLocationPlaceMarks = [MKPlacemark]()
     var userLocations = [UserLocation]()
+    
+    //visit data structures
     var userVisits = [CLVisit]()
+    var userVisitsWithDetails = [UserLocation]()
+    var userVisitPlaceMarks = [MKPlacemark]()
+    
     var window: UIWindow?
     
 
@@ -92,7 +99,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
         print("got visit")
-        print(visit)
+        if(visit.departureDate==NSDate.distantFuture || visit.arrivalDate == NSDate.distantPast){
+            // we dont want these
+        }else{
+            self.userVisits.insert(visit, at: 0);
+            let location = CLLocation .init(latitude: visit.coordinate.latitude, longitude: visit.coordinate.longitude)
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+                guard error == nil else {
+                    print(error!)
+                    return
+                }
+                    
+                    // Most geocoding requests contain only one result.
+                    if let firstPlacemark = placemarks?.first {
+                        
+                        let place = UserLocation(withPlacemark: firstPlacemark, andLocation: location)
+                        let userLocationDict = place.getUserLocationDictionary()
+                        //add placemarks and userlocation to app array , this needs to go to a database instead
+                        //we are inserting at 0 so the most recent location is removed first in table view
+                        self.userVisitPlaceMarks.insert(place.getMapMarker(), at: 0)
+                        self.userVisitsWithDetails.insert(place, at: 0)
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("VisitsPlaceMark"), object: nil, userInfo: userLocationDict)
+                    }
+                    //debug print
+                    print(location)
+                }
+            
+        }
+            
+        
         
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -113,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     let userLocationDict = place.getUserLocationDictionary()
                     //add placemarks and userlocation to app array , this needs to go to a database instead
                     //we are inserting at 0 so the most recent location is removed first in table view
-                    self.userPlaceMarks.insert(place.getMapMarker(), at: 0)
+                    self.userLocationPlaceMarks.insert(place.getMapMarker(), at: 0)
                     self.userLocations.insert(place, at: 0)
                     let nc = NotificationCenter.default
                     nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDict)

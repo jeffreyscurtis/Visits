@@ -12,7 +12,26 @@ import Contacts
 class MapViewController: UIViewController {
      let application = UIApplication.shared.delegate as! AppDelegate
     @IBOutlet weak var mapSegment: UISegmentedControl!
+    @IBAction func maptypeChanged(_ sender: UISegmentedControl) {
+        if(sender.selectedSegmentIndex == 0){
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(self.application.userVisitPlaceMarks)
+            
+            
+        }else if (sender.selectedSegmentIndex == 1){
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(self.application.userLocationPlaceMarks)
+
+        }else{
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(self.application.userLocationPlaceMarks)
+            mapView.addAnnotations(self.application.userVisitPlaceMarks)
+            
+        }
+        self .updateMapSettings()
+    }
     
+    @IBOutlet weak var mapTypeSegment: UISegmentedControl!
     @IBOutlet weak var mapView: MKMapView!
     @IBAction func mapButtonPressed(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -28,12 +47,15 @@ class MapViewController: UIViewController {
         case 3:
             mapView.mapType = MKMapType.mutedStandard
             break;
+        case 4:
+            mapView.mapType = MKMapType.satelliteFlyover 
         default:
             mapView.mapType = MKMapType.mutedStandard
             
         }
     
     }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.mapType = MKMapType.standard
@@ -42,9 +64,9 @@ class MapViewController: UIViewController {
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(UpdatePlaceMark), name: Notification.Name("VisitPlaceMark"), object: nil)
         mapView.removeAnnotations(mapView.annotations)
-        mapView.addAnnotations(application.userPlaceMarks)
+        mapView.addAnnotations(application.userLocationPlaceMarks)
       
-        let viewRegion = MKCoordinateRegion(center: application.userPlaceMarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        let viewRegion = MKCoordinateRegion(center: application.userLocationPlaceMarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(viewRegion, animated: false)
         self .updateMapSettings()
        
@@ -67,8 +89,8 @@ class MapViewController: UIViewController {
     @objc func UpdatePlaceMark(_ notification:Notification) {
         
         mapView.removeAnnotations(mapView.annotations)
-        mapView.addAnnotations(application.userPlaceMarks)
-        let viewRegion = MKCoordinateRegion(center: application.userPlaceMarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        mapView.addAnnotations(application.userLocationPlaceMarks)
+        let viewRegion = MKCoordinateRegion(center: application.userLocationPlaceMarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(viewRegion, animated: true)
         self .updateMapSettings()
     }    /*

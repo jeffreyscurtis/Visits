@@ -90,9 +90,6 @@
                             <subviews>
                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="250" id="S1k-ld-uVv"/>
-                                    </constraints>
                                 </mapView>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
                                     <rect key="frame" x="79.5" y="214" width="255" height="29"/>
@@ -223,6 +220,9 @@
                                 <segment title="Visits"/>
                                 <segment title="Locations"/>
                             </segments>
+                            <connections>
+                                <action selector="vistTypeChanged:" destination="Ta0-SK-04C" eventType="valueChanged" id="xP8-u9-ii5"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" title="Map" id="d7v-Lf-vsZ">
                             <connections>
@@ -233,6 +233,7 @@
                     <connections>
                         <outlet property="mapSegment" destination="DUk-K2-UgO" id="B9F-pc-jOQ"/>
                         <outlet property="mapView" destination="Xxc-GO-MMo" id="EmF-fh-2hp"/>
+                        <outlet property="visitTypeSegment" destination="lfK-tU-kWP" id="jeX-l2-AIW"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="showMain" id="tsz-0j-DaH"/>
                     </connections>
                 </tableViewController>

@@ -37,6 +37,23 @@ class MainTableViewController: UITableViewController {
             
         }
     }
+    @IBAction func vistTypeChanged(_ sender: UISegmentedControl) {
+        if(visitTypeSegment.selectedSegmentIndex == 1){
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(self.application.userLocationPlaceMarks)
+           
+            
+        }else{
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(self.application.userVisitPlaceMarks)
+            
+           
+            
+        }
+        self.tableView .reloadData()
+        
+    }
+    @IBOutlet weak var visitTypeSegment: UISegmentedControl!
     @IBAction func mapButtonPressed(_ sender: UIBarButtonItem){
         let storyBoard = UIStoryboard.init(name: "MapStoryboard", bundle: nil)
         guard let viewController = storyBoard.instantiateInitialViewController() else {
@@ -75,9 +92,16 @@ class MainTableViewController: UITableViewController {
     // The userInfo contains a dictionary of the location data
     @objc func UpdatePlaceMark(_ notification:Notification) {
         
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.addAnnotations(self.application.userPlaceMarks)
-        self.tableView.reloadData()
+        if(visitTypeSegment.selectedSegmentIndex == 1){
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.addAnnotations(self.application.userLocationPlaceMarks)
+            
+            self.tableView.reloadData()
+            
+        }else{
+            
+        }
+        
 
     }
     // MARK: - Table view data source
@@ -89,15 +113,24 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.application.userPlaceMarks.count
+        if (visitTypeSegment.selectedSegmentIndex == 1){
+            return self.application.userLocationPlaceMarks.count
+        }else{
+            return self.application.userVisitPlaceMarks.count
+        }
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
         print(self.application.userLocations[indexPath.row])
+        var place = self.application.userLocationPlaceMarks[indexPath.row]
         
-        let place = self.application.userPlaceMarks[indexPath.row]
+        if (visitTypeSegment.selectedSegmentIndex == 1){
+            place = self.application.userLocationPlaceMarks[indexPath.row]
+        }else{
+            place = self.application.userVisitPlaceMarks[indexPath.row]
+        }
         var stringAddress = ""
         
         if let address = place.postalAddress{
