@@ -13,16 +13,20 @@
         <!--Map-->
         <scene sceneID="2C0-Av-uoB">
             <objects>
-                <viewController storyboardIdentifier="mapStoryBoard" title="Map" extendedLayoutIncludesOpaqueBars="YES" id="UoY-C0-8ES" customClass="MapViewController" customModule="Visits" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapStoryBoard" title="Map" id="UoY-C0-8ES" customClass="MapViewController" customModule="Visits" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ikC-8l-xLe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" mapType="standard" showsScale="YES" showsTraffic="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3d8-kd-RSL">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="zSv-rD-QC5" appends="YES" id="CMH-TB-wIn"/>
+                                </connections>
                             </mapView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YpE-rH-SqB">
-                                <rect key="frame" x="79.5" y="54" width="255" height="29"/>
+                                <rect key="frame" x="79.5" y="98" width="255" height="29"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <segments>
                                     <segment title="Plain"/>
@@ -36,6 +40,7 @@
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6SI-bs-23d">
                                 <rect key="frame" x="96.5" y="833" width="221" height="29"/>
+                                <color key="backgroundColor" white="1" alpha="0.5357793328220859" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <segments>
                                     <segment title="Visits"/>
                                     <segment title="Locations"/>
@@ -56,12 +61,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="o5u-l0-wa6"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="mapSegment" destination="YpE-rH-SqB" id="ObH-QJ-ERT"/>
                         <outlet property="mapView" destination="3d8-kd-RSL" id="tF3-kr-hgu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jML-cL-XES" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="2" id="zSv-rD-QC5">
+                    <connections>
+                        <action selector="longTap:" destination="UoY-C0-8ES" id="nsq-aG-iHc"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1782.608695652174" y="289.28571428571428"/>
         </scene>

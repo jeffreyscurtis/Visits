@@ -37,7 +37,7 @@ class MainTableViewController: UITableViewController {
             
         }
     }
-    @IBAction func mapButtonPressed(_ sender: UIButton){
+    @IBAction func mapButtonPressed(_ sender: UIBarButtonItem){
         let storyBoard = UIStoryboard.init(name: "MapStoryboard", bundle: nil)
         guard let viewController = storyBoard.instantiateInitialViewController() else {
             print("failed")

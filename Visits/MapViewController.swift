@@ -46,15 +46,31 @@ class MapViewController: UIViewController {
       
         let viewRegion = MKCoordinateRegion(center: application.userPlaceMarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(viewRegion, animated: false)
+        self .updateMapSettings()
+       
+    }
+    func updateMapSettings(){
+        mapView .showsCompass = true
+        mapView .showsScale = true
+        mapView .showsTraffic = true
+        mapView .showsBuildings = true
+        mapView .showsPointsOfInterest = true
+        
     }
     
-    
+    @IBAction func longTap(_ sender: UILongPressGestureRecognizer) {
+        print(sender)
+        if sender.state == UIGestureRecognizer.State .ended{
+        mapView.showsUserLocation = !mapView.showsUserLocation
+        }
+    }
     @objc func UpdatePlaceMark(_ notification:Notification) {
         
         mapView.removeAnnotations(mapView.annotations)
         mapView.addAnnotations(application.userPlaceMarks)
-       
-        
+        let viewRegion = MKCoordinateRegion(center: application.userPlaceMarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        mapView.setRegion(viewRegion, animated: true)
+        self .updateMapSettings()
     }    /*
     // MARK: - Navigation
 

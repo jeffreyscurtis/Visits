@@ -90,6 +90,9 @@
                             <subviews>
                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="250" id="S1k-ld-uVv"/>
+                                    </constraints>
                                 </mapView>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
                                     <rect key="frame" x="79.5" y="214" width="255" height="29"/>
@@ -221,15 +224,10 @@
                                 <segment title="Locations"/>
                             </segments>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" id="tFC-Ad-9E0">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="f6z-Wb-VdE">
-                                <rect key="frame" x="311" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Map"/>
-                                <connections>
-                                    <action selector="mapButtonPressed:" destination="Ta0-SK-04C" eventType="touchUpInside" id="rEt-Vz-rND"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="d7v-Lf-vsZ">
+                            <connections>
+                                <action selector="mapButtonPressed:" destination="Ta0-SK-04C" id="lBc-A0-Nkf"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
