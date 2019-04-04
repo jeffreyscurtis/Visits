@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F254014225127D2002A0EED /* DetailsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F254013225127D2002A0EED /* DetailsStoryboard.storyboard */; };
 		4F254016225127F1002A0EED /* MapStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F254015225127F1002A0EED /* MapStoryboard.storyboard */; };
+		4F4E15F82255817A008C5EFF /* UserVist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F4E15F72255817A008C5EFF /* UserVist.swift */; };
 		4F51A6BD22482F9500D1714C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51A6BC22482F9500D1714C /* AppDelegate.swift */; };
 		4F51A6BF22482F9500D1714C /* StartUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F51A6BE22482F9500D1714C /* StartUpViewController.swift */; };
 		4F51A6C222482F9500D1714C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F51A6C022482F9500D1714C /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		4F254013225127D2002A0EED /* DetailsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailsStoryboard.storyboard; sourceTree = "<group>"; };
 		4F254015225127F1002A0EED /* MapStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapStoryboard.storyboard; sourceTree = "<group>"; };
+		4F4E15F72255817A008C5EFF /* UserVist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserVist.swift; sourceTree = "<group>"; };
 		4F51A6B922482F9500D1714C /* Visits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Visits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F51A6BC22482F9500D1714C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F51A6BE22482F9500D1714C /* StartUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpViewController.swift; sourceTree = "<group>"; };
@@ -90,8 +92,9 @@
 				4F819459224EBDA800D8A489 /* location@3x.png */,
 				4F819457224EBD9D00D8A489 /* default-placeholder.png */,
 				4F51A6BC22482F9500D1714C /* AppDelegate.swift */,
-				4F81945B224F3D8F00D8A489 /* UserLocation.swift */,
 				4F81945D224F478100D8A489 /* LocationKeys.swift */,
+				4F81945B224F3D8F00D8A489 /* UserLocation.swift */,
+				4F4E15F72255817A008C5EFF /* UserVist.swift */,
 				4F51A6C022482F9500D1714C /* Main.storyboard */,
 				4F819461224F9DCB00D8A489 /* LocationTableViewCell.swift */,
 				4F51A6BE22482F9500D1714C /* StartUpViewController.swift */,
@@ -204,6 +207,7 @@
 			files = (
 				4F81945E224F478100D8A489 /* LocationKeys.swift in Sources */,
 				4F819462224F9DCB00D8A489 /* LocationTableViewCell.swift in Sources */,
+				4F4E15F82255817A008C5EFF /* UserVist.swift in Sources */,
 				4F51A6BF22482F9500D1714C /* StartUpViewController.swift in Sources */,
 				4F51A6D52248779E00D1714C /* LocationDelegate.swift in Sources */,
 				4F52571C225301A00020718D /* MapViewController.swift in Sources */,

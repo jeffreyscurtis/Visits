@@ -1,23 +1,26 @@
 //
-//  UserLocation.swift
+//  UserVist.swift
 //  Visits
 //
-//  Created by Jeffrey Curtis on 3/30/19.
+//  Created by Jeffrey Curtis on 4/3/19.
 //  Copyright © 2019 Jeffrey Curtis. All rights reserved.
 //
+
 
 import Foundation
 import CoreLocation
 import MapKit
 import Contacts
-struct UserLocation{
+struct UserVisit{
     
     private var place: CLPlacemark
     private var location: CLLocation
+    private var visit: CLVisit
     
-    init (withPlacemark placeMark:CLPlacemark ,andLocation location: CLLocation){
-        place = placeMark
+    init (withPlacemark placeMark:CLPlacemark ,andLocation location: CLLocation, andVisit visit: CLVisit){
+        self.place = placeMark
         self.location = location
+        self.visit = visit
     }
     func getUserLocationDictionary() -> [LocationKeys: Any]{
         
@@ -40,11 +43,13 @@ struct UserLocation{
         userLocationDictionary[LocationKeys.AreasOfInterest] = place.areasOfInterest
         userLocationDictionary[LocationKeys.Ocean] = place.ocean
         userLocationDictionary[LocationKeys.InlandWater] = place.inlandWater
-        userLocationDictionary[LocationKeys.HorizontalAccuracy] = location.horizontalAccuracy
+        userLocationDictionary[LocationKeys.ArrivalTime] = visit.arrivalDate
+        userLocationDictionary[LocationKeys.DepartureTime] = visit.departureDate
+        userLocationDictionary[LocationKeys.HorizontalAccuracy] = visit.horizontalAccuracy
         userLocationDictionary[LocationKeys.VerticalAccuracy] = location.verticalAccuracy
         userLocationDictionary[LocationKeys.Region] = place.region
         return userLocationDictionary
-    
+        
     }
     func getMapMarker()->MKPlacemark{
         let loc = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
@@ -56,4 +61,3 @@ struct UserLocation{
     }
     
 }
-

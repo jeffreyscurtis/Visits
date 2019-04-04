@@ -85,14 +85,14 @@
                         <color key="separatorColor" red="0.1647058824" green="0.36862745099999999" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="EfL-ce-bV0">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xxc-GO-MMo">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="160"/>
                                 </mapView>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="DUk-K2-UgO">
-                                    <rect key="frame" x="79.5" y="214" width="255" height="29"/>
+                                    <rect key="frame" x="79.5" y="124" width="255" height="29"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <segments>
                                         <segment title="Plain"/>
@@ -117,7 +117,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="blankCell" rowHeight="85" id="5We-nB-yfq">
-                                <rect key="frame" x="0.0" y="305.5" width="414" height="85"/>
+                                <rect key="frame" x="0.0" y="215.5" width="414" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5We-nB-yfq" id="QgD-fk-95i">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="84.5"/>
@@ -125,7 +125,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="locationCell" rowHeight="183" id="ZOP-Gg-Jz4" customClass="LocationTableViewCell" customModule="Visits" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="390.5" width="414" height="183"/>
+                                <rect key="frame" x="0.0" y="300.5" width="414" height="183"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZOP-Gg-Jz4" id="tBH-jf-Jxi">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="182.5"/>
@@ -231,6 +231,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="headerView" destination="EfL-ce-bV0" id="yfp-AX-2ha"/>
                         <outlet property="mapSegment" destination="DUk-K2-UgO" id="B9F-pc-jOQ"/>
                         <outlet property="mapView" destination="Xxc-GO-MMo" id="EmF-fh-2hp"/>
                         <outlet property="visitTypeSegment" destination="lfK-tU-kWP" id="jeX-l2-AIW"/>

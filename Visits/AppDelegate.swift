@@ -11,6 +11,8 @@ import CoreLocation
 import Foundation
 import MapKit
 import Contacts
+import UserNotifications
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
     
@@ -23,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     //visit data structures
     var userVisits = [CLVisit]()
-    var userVisitsWithDetails = [UserLocation]()
+    var userVisitsWithDetails = [UserVisit]()
     var userVisitPlaceMarks = [MKPlacemark]()
     
     var window: UIWindow?
@@ -114,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     // Most geocoding requests contain only one result.
                     if let firstPlacemark = placemarks?.first {
                         
-                        let place = UserLocation(withPlacemark: firstPlacemark, andLocation: location)
+                        let place = UserVisit(withPlacemark: firstPlacemark, andLocation: location, andVisit: visit)
                         let userLocationDict = place.getUserLocationDictionary()
                         //add placemarks and userlocation to app array , this needs to go to a database instead
                         //we are inserting at 0 so the most recent location is removed first in table view

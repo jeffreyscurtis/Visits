@@ -11,8 +11,11 @@ import MapKit
 import Contacts
 class MainTableViewController: UITableViewController {
     let application = UIApplication.shared.delegate as! AppDelegate
+    var refreshControler  = UIRefreshControl .init()
     var locationTextCell = LocationTableViewCell()
+    let kHeaderHeight:CGFloat = 250
     
+    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var mapSegment: UISegmentedControl!
 
     
@@ -37,6 +40,7 @@ class MainTableViewController: UITableViewController {
             
         }
     }
+    
     @IBAction func vistTypeChanged(_ sender: UISegmentedControl) {
         if(visitTypeSegment.selectedSegmentIndex == 1){
             mapView.removeAnnotations(mapView.annotations)
@@ -53,7 +57,9 @@ class MainTableViewController: UITableViewController {
         self.tableView .reloadData()
         
     }
+    
     @IBOutlet weak var visitTypeSegment: UISegmentedControl!
+    
     @IBAction func mapButtonPressed(_ sender: UIBarButtonItem){
         let storyBoard = UIStoryboard.init(name: "MapStoryboard", bundle: nil)
         guard let viewController = storyBoard.instantiateInitialViewController() else {
@@ -64,8 +70,7 @@ class MainTableViewController: UITableViewController {
         if let navigator = self.navigationController{
             navigator .pushViewController(viewController, animated: true)
         }
-        
-        //self .performSegue(withIdentifier: "showMap", sender: self)
+
     }
     // required overload used when view is loaded
     override func viewDidLoad() {
@@ -73,25 +78,76 @@ class MainTableViewController: UITableViewController {
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
             self .performSegue(withIdentifier: "showMain", sender: self)
         }
+        if let headerFrame = self.headerView{
+            headerFrame.frame.size .height = 250
+            self.headerView.frame = headerFrame.frame
+        }
+  
         mapView.mapType = MKMapType.standard
         self.mapSegment.selectedSegmentIndex = 0;
         // register for notifcations on Visit Updates
         let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(UpdatePlaceMark), name: Notification.Name("VisitPlaceMark"), object: nil)
+        nc.addObserver(self, selector: #selector(UpdatePlaceMark),
+                       name: Notification.Name("VisitPlaceMark"), object: nil)
         
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 600
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        self.tableView.estimatedRowHeight=200;
+       
+        self.clearsSelectionOnViewWillAppear = false;
+        self.tableView.scrollsToTop = true;
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.tableView.remembersLastFocusedIndexPath = true;
+        
+        refreshControl?.backgroundColor = self.navigationController?.navigationBar.barTintColor? .withAlphaComponent(0.65)
+        mapView.backgroundColor=UIColor .black
+        tableView .addSubview(refreshControler)
+        self.updateMapSettings()
+        self.refreshControl?.backgroundColor = UIColor .clear
+        self.refreshControl?.tintColor = self.navigationController?.navigationBar.backgroundColor;
+        
+        self.refreshControler .addTarget(self, action: #selector(updateLocations), for: UIControl.Event .valueChanged)
+        
+        
+        
+        //this is becuase the refreshcontroller is behind the table background
+        
+        self.refreshControl?.layer.zPosition = (self.tableView.backgroundView?.layer.zPosition)! + 1;
+        self.reloadTableData()
+
     }
+    @objc func updateLocations(){
+        print("update")
+        self.reloadTableData()
+        refreshControler .endRefreshing()
+    }
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let yPos: CGFloat = -scrollView.contentOffset.y
+        
+        if (yPos > 0) {
+            var mapViewRect: CGRect = self.mapView.frame
+            mapViewRect.origin.y = scrollView.contentOffset.y
+            mapViewRect.size.height = kHeaderHeight+yPos
+            self.mapView.frame = mapViewRect
+        }}
     
-    // This is a notification posted when a new location is recieved
+    func updateMapSettings(){
+        mapView .showsCompass = true
+        mapView .showsScale = true
+        mapView .showsTraffic = true
+        mapView .showsBuildings = true
+        mapView .showsPointsOfInterest = true
+        
+    }    // This is a notification posted when a new location is recieved
     // The userInfo contains a dictionary of the location data
     @objc func UpdatePlaceMark(_ notification:Notification) {
         
+        self .reloadTableData()
+        
+
+    }
+    func reloadTableData(){
         if(visitTypeSegment.selectedSegmentIndex == 1){
             mapView.removeAnnotations(mapView.annotations)
             mapView.addAnnotations(self.application.userLocationPlaceMarks)
@@ -100,10 +156,7 @@ class MainTableViewController: UITableViewController {
             
         }else{
             
-        }
-        
-
-    }
+        }    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -159,6 +212,19 @@ class MainTableViewController: UITableViewController {
         }
         
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        print(size)
+        var frame = self.mapView.frame
+        frame.size.width = size.width
+        mapView.frame=frame
+        mapView .setNeedsLayout()
+    }
+    
+    
+    
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
