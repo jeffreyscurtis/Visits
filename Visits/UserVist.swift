@@ -11,7 +11,7 @@ import Foundation
 import CoreLocation
 import MapKit
 import Contacts
-struct UserVisit{
+struct UserVisit {
     
     private var place: CLPlacemark
     private var location: CLLocation

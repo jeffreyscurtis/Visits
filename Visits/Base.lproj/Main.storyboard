@@ -53,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="335" y="628"/>
+            <point key="canvasLocation" x="1097" y="-139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5j8-yL-Yaz">
@@ -72,7 +72,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L6N-PM-skN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-655" y="-132"/>
+            <point key="canvasLocation" x="-532" y="-139"/>
         </scene>
         <!--Main Table View Controller-->
         <scene sceneID="v7Y-CY-xxk">
@@ -235,13 +235,12 @@
                         <outlet property="mapSegment" destination="DUk-K2-UgO" id="B9F-pc-jOQ"/>
                         <outlet property="mapView" destination="Xxc-GO-MMo" id="EmF-fh-2hp"/>
                         <outlet property="visitTypeSegment" destination="lfK-tU-kWP" id="jeX-l2-AIW"/>
-                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="showMain" id="tsz-0j-DaH"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="showMain" id="tsz-0j-DaH"/>
                     </connections>
                 </tableViewController>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="u96-UX-rw3"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksq-BT-yrw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="334.78260869565219" y="-133.25892857142856"/>
+            <point key="canvasLocation" x="362" y="-139"/>
         </scene>
     </scenes>
     <resources>

@@ -13,7 +13,7 @@
         <scene sceneID="vA6-md-MzF">
             <objects>
                 <tableViewController storyboardIdentifier="detailsStoryBoard" id="cP4-GT-rmV" customClass="DetailTableViewController" customModule="Visits" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="WI1-IN-kiK">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="WI1-IN-kiK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -45,21 +45,18 @@
                                 <constraint firstItem="3cr-qC-QdO" firstAttribute="leading" secondItem="FOQ-6K-73t" secondAttribute="leading" id="sik-6E-idy"/>
                             </constraints>
                         </view>
-                        <sections>
-                            <tableViewSection headerTitle="hhhh" footerTitle="nnnnnn" id="syn-Gi-8Lf">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detailsCell" rowHeight="319" id="hYc-Lg-a5W">
-                                        <rect key="frame" x="0.0" y="305.33333333333331" width="414" height="318.99999999999994"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hYc-Lg-a5W" id="ZnX-lc-HnS">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="318.66666666666669"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.70980392160000005" green="0.062745098040000002" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detailsCell" rowHeight="319" id="hYc-Lg-a5W">
+                                <rect key="frame" x="0.0" y="305.33333333333331" width="414" height="318.99999999999994"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hYc-Lg-a5W" id="ZnX-lc-HnS">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="318.66666666666669"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="cP4-GT-rmV" id="fhp-l6-hFc"/>
                             <outlet property="delegate" destination="cP4-GT-rmV" id="pTw-ee-gSe"/>
@@ -74,7 +71,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EZe-cG-jEv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

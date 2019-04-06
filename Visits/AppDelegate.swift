@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var userLocationPlaceMarks = [MKPlacemark]()
     var userLocations = [UserLocation]()
     
+    
     //visit data structures
     var userVisits = [CLVisit]()
     var userVisitsWithDetails = [UserVisit]()
@@ -93,6 +94,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    
+    
+    
     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
         
     }
@@ -148,14 +152,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 // Most geocoding requests contain only one result.
                 if let firstPlacemark = placemarks?.first {
                     
-                    let place = UserLocation(withPlacemark: firstPlacemark, andLocation: location)
-                    let userLocationDict = place.getUserLocationDictionary()
+                   
+                    
+                    
+                    let userLocationDictionary = UserLocation .getUserLocationDictionary(place: firstPlacemark, andLocation: location)
                     //add placemarks and userlocation to app array , this needs to go to a database instead
                     //we are inserting at 0 so the most recent location is removed first in table view
-                    self.userLocationPlaceMarks.insert(place.getMapMarker(), at: 0)
+                
+                    self.userLocationPlaceMarks.insert(UserLocation.getMapMarker(location: location, place: firstPlacemark), at: 0)
+                    var place = UserLocation .init()
+                    place.LocationCounter = 0;
+                    place.Latitude = userLocationDictionary[LocationKeys.Latitude] as? Double
+                    place.Longitude = userLocationDictionary[LocationKeys.Longitude] as? Double
+                    place.Street = userLocationDictionary[LocationKeys.Street] as? String
+                    place.SubLocality = userLocationDictionary[LocationKeys.Info] as? String
+                    place.City = userLocationDictionary[LocationKeys.City] as? String
+                    place.State = userLocationDictionary[LocationKeys.State] as? String
+                    place.Postalcode = userLocationDictionary[LocationKeys.Zip] as? String
+                    place.Country = userLocationDictionary[LocationKeys.Country] as? String
+                    place.CountryCode = userLocationDictionary[LocationKeys.Zip] as? String
+                    place.Altitude = userLocationDictionary[LocationKeys.Altitude] as? Double
+                    place.Course = userLocationDictionary[LocationKeys.Course] as? Double
+                    place.AdministrativeArea = userLocationDictionary[LocationKeys.State] as? String
+                    place.Name = userLocationDictionary[LocationKeys.Name] as? String
+                    place.Info = userLocationDictionary[LocationKeys.Info] as? String
+                    place.Speed = userLocationDictionary[LocationKeys.Speed] as? Double
+                    place.Time = userLocationDictionary[LocationKeys.Time] as? Date
+                    place.Address = userLocationDictionary[LocationKeys.Address] as? String
+                    place.AreasOfInterest = userLocationDictionary[LocationKeys.AreasOfInterest] as? [String]
+                    place.Ocean = userLocationDictionary[LocationKeys.Ocean] as? String
+                    place.InlandWater = userLocationDictionary[LocationKeys.InlandWater] as? String
+                    place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
+                    place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
+                 
+                    print("***********")
+                    print(place)
+                    print("************")
                     self.userLocations.insert(place, at: 0)
                     let nc = NotificationCenter.default
-                    nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDict)
+                    nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDictionary)
+                    let userData = place.writeJSONData()
+                    
+                    // Error handling.
+                    if (userData == true){
+                        print("User data has been written to 'UserLocation.json'")
+                    } else {
+                        print("User data has failed.")
+                    }
+                    
                 }
                 //debug print
                 print(location)
@@ -207,4 +251,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
 
 }
-
+// encode to Json and write data to file.
+extension Encodable {
+    func writeJSONData() -> Bool? {
+        let encoder = JSONEncoder() // Json encoder object.
+        encoder.outputFormatting = .prettyPrinted
+        guard let jsonData = try? encoder.encode(self) else { return false } //encodes the data that is passed to writeJSONData function.
+        let file = "UsersLocations.json" // file to store user data.
+        
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            
+            // appends file to directory path.
+            let fileURL = dir.appendingPathComponent(file)
+            
+            print("Writing to file... \n")
+            let fileManager = FileManager.default
+            print(fileURL.path) //prints out the file path to where the data is being store.
+            if fileManager.fileExists(atPath: fileURL.path) {
+                print("FILE AVAILABLE")
+            } else {
+                FileManager.default.createFile(atPath: fileURL.path, contents: nil, attributes: nil)
+            }
+            if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
+               
+                fileHandle.seekToEndOfFile()
+                fileHandle.write(jsonData)
+                return true
+            } else{
+                
+                
+            }
+          
+        }
+        return false
+    }
+}

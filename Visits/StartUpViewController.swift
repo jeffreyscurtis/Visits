@@ -14,31 +14,37 @@ class StartUpViewController: UIViewController {
     
     
     
-    
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(locationBool), name: Notification.Name("LocationEnabled"), object: nil)
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super .viewDidAppear(true)
         let locationEnable = UserDefaults.standard.bool(forKey: "locationEnabled")
         print("user default = ")
         print (locationEnable)
         if (locationEnable){
             print("Should be showing segue")
-            self.dismiss(animated: true) {
-        
-            }
+            self.navigationItem.hidesBackButton = false;
+           _ = navigationController?.popViewController(animated: true)
+            
             
         }
+        self.navigationItem.hidesBackButton = true;
+    }
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+      
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(locationBool), name: Notification.Name("LocationEnabled"), object: nil)
+        
+       
+        
+            
+        
         
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     @objc func locationBool(_ notification:Notification) {
-        self.dismiss(animated: true) {
-            
-        }
+         _ = navigationController?.popViewController(animated: true)
         
     }
     @IBAction func startLocations(_ sender: UIButton) {

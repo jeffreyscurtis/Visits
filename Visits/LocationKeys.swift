@@ -7,7 +7,10 @@
 //
 
 import Foundation
-enum LocationKeys{
+enum LocationKeys: Int{
+ 
     
-    case Latitude, Longitude, Altitude, Course, City, State, Zip, Speed, Name, Info, Country,Street, Time, Address, Ocean, InlandWater, AreasOfInterest, ArrivalTime, DepartureTime, HorizontalAccuracy, VerticalAccuracy, Region
+    
+    case Latitude, Longitude, Altitude, Course, City, State, Zip, Speed, Name, Info, Country,Street, Time, Address, Ocean, InlandWater, AreasOfInterest, ArrivalTime, DepartureTime, HorizontalAccuracy, VerticalAccuracy, Region, Count
 }
+
