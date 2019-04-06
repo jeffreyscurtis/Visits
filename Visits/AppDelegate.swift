@@ -184,21 +184,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     place.InlandWater = userLocationDictionary[LocationKeys.InlandWater] as? String
                     place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
                     place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
+                   
+                    //test to write array of json
+                    self.userLocations .insert(place, at: 0)
+                    if self.userLocations.count == 10{
+                        if self.userLocations.writeJSONData() ?? false{
+                            print("User data has been written to 'UserLocation.json'")
+                        }else{
+                            print("User data has failed.")
+                        }
+                    }
                  
-                    print("***********")
-                    print(place)
-                    print("************")
-                    self.userLocations.insert(place, at: 0)
+                
                     let nc = NotificationCenter.default
                     nc.post(name: Notification.Name("VisitPlaceMark"), object: nil, userInfo: userLocationDictionary)
-                    let userData = place.writeJSONData()
+                   
+                    // let userData = place.writeJSONData()
                     
                     // Error handling.
+                    /*
                     if (userData == true){
                         print("User data has been written to 'UserLocation.json'")
                     } else {
                         print("User data has failed.")
-                    }
+                    }*/
                     
                 }
                 //debug print
@@ -209,8 +218,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        let nc = NotificationCenter.default
         switch CLLocationManager.authorizationStatus() {
-            
+           
         case .notDetermined:
             // Request when-in-use authorization initially
             print("not determined")
@@ -222,20 +232,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         case .restricted, .denied:
             // Disable location features
             //disableMyLocationBasedFeatures()
+            nc.post(name: Notification.Name("LocationErrorSetting"), object: nil, userInfo: nil)
             print("restricted")
             break
             
         case .authorizedWhenInUse:
             print("only allowed while running")
-            // Enable basic location features
-            //enableMyWhenInUseFeatures()
+           
+            nc.post(name: Notification.Name("LocationErrorSetting"), object: nil, userInfo: nil)
+            
             break
             
         case .authorizedAlways:
             // Enable any of your app's location features
             locationManager .startMonitoringSignificantLocationChanges()
             
-            // locationManager .startUpdatingLocation()
+            
             locationManager .startMonitoringVisits()
             UserDefaults.standard.set(true, forKey: "locationEnabled")
             let nc = NotificationCenter.default
