@@ -4,16 +4,22 @@
 //
 //  Created by Jeffrey Curtis on 3/24/19.
 //  Copyright © 2019 Jeffrey Curtis. All rights reserved.
-//
+//  Group 2 CMSC 495 2019 April 6
+//  MainTableViewController
 
 import UIKit
 import MapKit
 import Contacts
+/// This is the main tableview controller
 class MainTableViewController: UITableViewController {
+    // MARK: - Instance Variables
+    
     let application = UIApplication.shared.delegate as! AppDelegate
     var refreshControler  = UIRefreshControl .init()
     var locationTextCell = LocationTableViewCell()
     let kHeaderHeight:CGFloat = 250
+    
+    // MARK: - GUI Connections and Actions
     
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var mapSegment: UISegmentedControl!
@@ -72,6 +78,7 @@ class MainTableViewController: UITableViewController {
         }
 
     }
+    // MARK:  - Overidden View Controller Functions
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
@@ -91,6 +98,7 @@ class MainTableViewController: UITableViewController {
   
         mapView.mapType = MKMapType.standard
         self.mapSegment.selectedSegmentIndex = 0;
+        
         // register for notifcations on Visit Updates
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(UpdatePlaceMark),
@@ -102,8 +110,6 @@ class MainTableViewController: UITableViewController {
        
         self.clearsSelectionOnViewWillAppear = false;
         self.tableView.scrollsToTop = true;
-
-        self.tableView.remembersLastFocusedIndexPath = true;
         
         refreshControl?.backgroundColor = self.navigationController?.navigationBar.barTintColor? .withAlphaComponent(0.65)
         mapView.backgroundColor=UIColor .black
@@ -122,11 +128,13 @@ class MainTableViewController: UITableViewController {
         self.reloadTableData()
 
     }
+    //required call back when refreshcontroller is fired
     @objc func updateLocations(){
         print("update")
         self.reloadTableData()
         refreshControler .endRefreshing()
     }
+    
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let yPos: CGFloat = -scrollView.contentOffset.y
@@ -153,6 +161,8 @@ class MainTableViewController: UITableViewController {
         
 
     }
+    //MARK: - Internal functions
+    
     func reloadTableData(){
         if(visitTypeSegment.selectedSegmentIndex == 1){
             mapView.removeAnnotations(mapView.annotations)
@@ -182,6 +192,7 @@ class MainTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
+        cell.MapImage.image = UIImage.init(contentsOfFile: "defaultoplaceholder.png")
         print(self.application.userLocations[indexPath.row])
         var place = self.application.userLocationPlaceMarks[indexPath.row]
         
@@ -201,8 +212,37 @@ class MainTableViewController: UITableViewController {
         cell.TopLabel.text = "\(String(describing: place.location!.timestamp))"
         cell.TextView.text = stringAddress
         cell.BottomLabel.text = "Latitude \(place.coordinate.latitude) \n Longitude \(place.coordinate.longitude)"
-        // Configure the cell...
+        _ = NSUUID.init().uuidString
+        let options = MKMapSnapshotter.Options.init()
+        
+        options.scale = UIScreen.main.scale
+        options.size = CGSize(width: 100, height: 200)
+        options.region = MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 200.0, longitudinalMeters: 200.0);
+        let snapshotter = MKMapSnapshotter.init(options: options)
+        snapshotter .start { (snapshot, error) in
+            let image = snapshot?.image
+            cell.MapImage.image = image
+            if (error != nil){
+                cell.MapImage.image = nil;
+            }else{
+                
 
+                
+            }
+        }
+        /*
+        [snapshotter startWithCompletionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+        
+        UIImage *image = snapshot.image;
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *filePath = [documentsDirectory stringByAppendingPathComponent:uuid];
+        NSData *data=UIImagePNGRepresentation(image);
+        [data writeToFile:filePath atomically:YES];
+        [cell.mapImageView setImage:image];
+        // Configure the cell...
+ */
         return cell
     }
     
@@ -219,18 +259,5 @@ class MainTableViewController: UITableViewController {
         }
         
     }
-    /*
-    if we need to use other sizes --
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super .viewWillTransition(to: size, with: coordinator)
-        print(size)
-        var frame = self.mapView.frame
-        frame.size.width = size.width
-        mapView.frame=frame
-        mapView .setNeedsLayout()
-    }
- */
-    
-    
-   
+
 }

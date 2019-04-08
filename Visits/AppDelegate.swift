@@ -15,25 +15,28 @@ import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
-    
+    /// persistant store semiphore
     var locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
+    /// Location manager for the location services
     let locationManager = CLLocationManager()
     
-    //location data structures
+    /// location data structures
+    /// this is an array of Map Placemarks -- used currently to update values
     var userLocationPlaceMarks = [MKPlacemark]()
+    /// this is the array of UserLocations will be used to update the tables
     var userLocations = [UserLocation]()
     
     
-    //visit data structures
+    /// visit data structures
     var userVisits = [CLVisit]()
     var userVisitsWithDetails = [UserVisit]()
     var userVisitPlaceMarks = [MKPlacemark]()
     
     var window: UIWindow?
     
-
+    /// Required function called when application has finshed loading
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
         locationManager.delegate = self
         locationManager .allowsBackgroundLocationUpdates = true
         return true
@@ -56,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
-        print("App from backgrounf " + locationEnabled.description)
+        print("App from background " + locationEnabled.description)
         if locationEnabled{
             locationManager.delegate = self
             
@@ -79,8 +82,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             case .authorizedAlways:
                 // Enable any of your app's location features
                 //enableMyAlwaysFeatures()
-               locationManager.startMonitoringVisits()
-               locationManager.startMonitoringSignificantLocationChanges()
+                locationManager .startUpdatingLocation()
+                locationManager.startMonitoringVisits()
+                locationManager.startMonitoringSignificantLocationChanges()
                 break
             @unknown default:
               print("failed")
@@ -106,8 +110,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
         print("got visit")
         if(visit.departureDate==NSDate.distantFuture || visit.arrivalDate == NSDate.distantPast){
-            // we dont want these
+            // we dont want these as the visits are only half visists
         }else{
+            //
             self.userVisits.insert(visit, at: 0);
             let location = CLLocation .init(latitude: visit.coordinate.latitude, longitude: visit.coordinate.longitude)
             let geocoder = CLGeocoder()
@@ -119,15 +124,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     
                     // Most geocoding requests contain only one result.
                     if let firstPlacemark = placemarks?.first {
+                        //create structure
+                        var place = UserVisit()
+
+                        let userLocationDictionary = UserVisit.getUserLocationDictionary(place: firstPlacemark, andLocation: location, andVisit: visit)
                         
-                        let place = UserVisit(withPlacemark: firstPlacemark, andLocation: location, andVisit: visit)
-                        let userLocationDict = place.getUserLocationDictionary()
                         //add placemarks and userlocation to app array , this needs to go to a database instead
                         //we are inserting at 0 so the most recent location is removed first in table view
-                        self.userVisitPlaceMarks.insert(place.getMapMarker(), at: 0)
+                        self.userVisitPlaceMarks.insert(UserVisit.getMapMarker(location: location, place: firstPlacemark), at: 0)
                         self.userVisitsWithDetails.insert(place, at: 0)
+                        
+                        place.Latitude = userLocationDictionary[LocationKeys.Latitude] as? Double
+                        place.Longitude = userLocationDictionary[LocationKeys.Longitude] as? Double
+                        place.Street = userLocationDictionary[LocationKeys.Street] as? String
+                        place.SubLocality = userLocationDictionary[LocationKeys.Info] as? String
+                        place.City = userLocationDictionary[LocationKeys.City] as? String
+                        place.State = userLocationDictionary[LocationKeys.State] as? String
+                        place.Postalcode = userLocationDictionary[LocationKeys.Zip] as? String
+                        place.Country = userLocationDictionary[LocationKeys.Country] as? String
+                        place.CountryCode = userLocationDictionary[LocationKeys.Zip] as? String
+                        place.Altitude = userLocationDictionary[LocationKeys.Altitude] as? Double
+                        place.Course = userLocationDictionary[LocationKeys.Course] as? Double
+                        place.AdministrativeArea = userLocationDictionary[LocationKeys.State] as? String
+                        place.Name = userLocationDictionary[LocationKeys.Name] as? String
+                        place.Info = userLocationDictionary[LocationKeys.Info] as? String
+                        place.Speed = userLocationDictionary[LocationKeys.Speed] as? Double
+                        place.Time = userLocationDictionary[LocationKeys.Time] as? Date
+                        place.Address = userLocationDictionary[LocationKeys.Address] as? String
+                        place.AreasOfInterest = userLocationDictionary[LocationKeys.AreasOfInterest] as? [String]
+                        place.Ocean = userLocationDictionary[LocationKeys.Ocean] as? String
+                        place.InlandWater = userLocationDictionary[LocationKeys.InlandWater] as? String
+                        place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
+                        place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
+                        
+                        
                         let nc = NotificationCenter.default
-                        nc.post(name: Notification.Name("VisitsPlaceMark"), object: nil, userInfo: userLocationDict)
+                        nc.post(name: Notification.Name("VisitsPlaceMark"), object: nil, userInfo: userLocationDictionary)
                     }
                     //debug print
                     print(location)
@@ -149,19 +181,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     return
                 }
                 
-                // Most geocoding requests contain only one result.
+                /// Most geocoding requests contain only one result.
                 if let firstPlacemark = placemarks?.first {
                     
                    
                     
-                    
+                    /// create a dictionary form the placemark and location
                     let userLocationDictionary = UserLocation .getUserLocationDictionary(place: firstPlacemark, andLocation: location)
-                    //add placemarks and userlocation to app array , this needs to go to a database instead
-                    //we are inserting at 0 so the most recent location is removed first in table view
-                
+                   
+                    /// create a map marker and add to the array
                     self.userLocationPlaceMarks.insert(UserLocation.getMapMarker(location: location, place: firstPlacemark), at: 0)
+                    /// create the userLocation struct
                     var place = UserLocation .init()
-                    place.LocationCounter = 0;
+                    
                     place.Latitude = userLocationDictionary[LocationKeys.Latitude] as? Double
                     place.Longitude = userLocationDictionary[LocationKeys.Longitude] as? Double
                     place.Street = userLocationDictionary[LocationKeys.Street] as? String
@@ -184,7 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     place.InlandWater = userLocationDictionary[LocationKeys.InlandWater] as? String
                     place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
                     place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
-                   
+                    place.UUID = userLocationDictionary[LocationKeys.UUID] as? String
                     //test to write array of json
                     self.userLocations .insert(place, at: 0)
                     if self.userLocations.count == 10{
@@ -247,7 +279,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             // Enable any of your app's location features
             locationManager .startMonitoringSignificantLocationChanges()
             
-            
+           
             locationManager .startMonitoringVisits()
             UserDefaults.standard.set(true, forKey: "locationEnabled")
             let nc = NotificationCenter.default

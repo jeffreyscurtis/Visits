@@ -13,16 +13,42 @@ import MapKit
 import Contacts
 struct UserVisit {
     
-    private var place: CLPlacemark
-    private var location: CLLocation
-    private var visit: CLVisit
+    var LocationCounter:Int?
+    var Latitude:Double?
+    var Longitude:Double?
+    var Street:String?
+    var SubLocality:String?
+    var City:String?
+    var State:String?
+    var Postalcode:String?
+    var Country:String?
+    var CountryCode:String?
+    var Altitude:Double?
+    var Course:Double?
+    var AdministrativeArea:String?
+    var Name:String?
+    var Info:String?
+    var Speed:Double?
+    var Time:Date?
+    var Address:String?
+    var AreasOfInterest:[String]?
+    var Arrivaltime:Date?
+    var DepartureTime:Date?
+    var Ocean:String?
+    var InlandWater:String?
+    var HorizontalAccuracy:Double?
+    var VerticalAccuracy:Double?
     
-    init (withPlacemark placeMark:CLPlacemark ,andLocation location: CLLocation, andVisit visit: CLVisit){
-        self.place = placeMark
-        self.location = location
-        self.visit = visit
+    struct AreasOfIntrest: Codable {
+        var name: String
     }
-    func getUserLocationDictionary() -> [LocationKeys: Any]{
+    
+    
+    
+    
+    /// used as a helper if a dictioanary is needed of the Structure
+    static func getUserLocationDictionary(place:CLPlacemark, andLocation location:CLLocation,andVisit visit:CLVisit )-> [LocationKeys: Any]{
+        
         
         var userLocationDictionary: [LocationKeys: Any]=[:]
         
@@ -43,15 +69,17 @@ struct UserVisit {
         userLocationDictionary[LocationKeys.AreasOfInterest] = place.areasOfInterest
         userLocationDictionary[LocationKeys.Ocean] = place.ocean
         userLocationDictionary[LocationKeys.InlandWater] = place.inlandWater
-        userLocationDictionary[LocationKeys.ArrivalTime] = visit.arrivalDate
-        userLocationDictionary[LocationKeys.DepartureTime] = visit.departureDate
-        userLocationDictionary[LocationKeys.HorizontalAccuracy] = visit.horizontalAccuracy
+        userLocationDictionary[LocationKeys.HorizontalAccuracy] = location.horizontalAccuracy
         userLocationDictionary[LocationKeys.VerticalAccuracy] = location.verticalAccuracy
         userLocationDictionary[LocationKeys.Region] = place.region
+        userLocationDictionary[LocationKeys.ArrivalTime] = visit.arrivalDate
+        userLocationDictionary[LocationKeys.DepartureTime] = visit.departureDate
         return userLocationDictionary
         
     }
-    func getMapMarker()->MKPlacemark{
+    // used to generate
+    static func getMapMarker(location: CLLocation, place:CLPlacemark)->MKPlacemark{
+        
         let loc = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
         let placeMark = MKPlacemark(coordinate: loc, postalAddress: place.postalAddress!)
@@ -59,5 +87,6 @@ struct UserVisit {
         return placeMark
         
     }
+    
     
 }

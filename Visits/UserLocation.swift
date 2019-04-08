@@ -32,7 +32,7 @@ struct UserLocation:Codable {
     var Time:Date?
     var Address:String?
     var AreasOfInterest:[String]?
-    
+    var UUID:String?
     var Ocean:String?
     var InlandWater:String?
     var HorizontalAccuracy:Double?
@@ -45,7 +45,7 @@ struct UserLocation:Codable {
 
     
     
-    
+    /// used as a helper if a dictioanary is needed of the Structure
     static func getUserLocationDictionary(place:CLPlacemark, andLocation location:CLLocation )-> [LocationKeys: Any]{
         
         
@@ -71,10 +71,12 @@ struct UserLocation:Codable {
         userLocationDictionary[LocationKeys.HorizontalAccuracy] = location.horizontalAccuracy
         userLocationDictionary[LocationKeys.VerticalAccuracy] = location.verticalAccuracy
         userLocationDictionary[LocationKeys.Region] = place.region
+        userLocationDictionary[LocationKeys.UUID] = NSUUID.init().uuidString
         return userLocationDictionary
+        
     
     }
-    
+    // used to generate
     static func getMapMarker(location: CLLocation, place:CLPlacemark)->MKPlacemark{
         
         let loc = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
