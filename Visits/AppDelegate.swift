@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var userLocations = [UserLocation]()
     
     
+    
     /// visit data structures
     var userVisits = [CLVisit]()
     var userVisitsWithDetails = [UserVisit]()
@@ -49,13 +50,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-            if self.userLocations.writeJSONData() ?? false{
+        if self.userLocations.writeJSONData(fileName: "UserLocations.json") ?? false{
                 print("User data has been written to 'UserLocation.json'")
             }else{
                 print("User data has failed.")
             }
-    
-        
+        if self.userVisitsWithDetails.writeJSONData(fileName: "UserVisists.json") ?? false{
+            print("User data has been written to 'UserVisits.json'")
+        }else{
+            print("User Visits has failed.")
+        }
         
         
         
@@ -65,7 +69,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        self.userLocations.readJSONData();
+        self.userLocations.readJSONData(fileName: "UserLocations.json")
+        self.userVisitsWithDetails.readJSONData(fileName: "UserVisits.json")
+        
+        
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -305,10 +312,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
 extension Decodable{
     
-    func readJSONData() ->Bool{
+    func readJSONData(fileName: String ) ->Bool{
         var fileRead = false
         
-        let file = "UsersLocations.json" // file to store user data.
+        let file = fileName // file to store user data.
         
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             do {
@@ -320,10 +327,15 @@ extension Decodable{
                 
                 
                 let decoder = JSONDecoder()
-                let JSONData = try decoder.decode([UserLocation].self, from: data)
+                if fileName == "UserLocations.json"{
+                    _ = try decoder.decode([UserLocation].self, from: data)
+                }else{
+                    _ = try decoder.decode([UserVisit].self, from: data)
+                    
+                }
                 
-                print(JSONData)
-            
+                
+                fileRead = true
     
             } catch {
                 print(error)
@@ -334,11 +346,11 @@ extension Decodable{
 }
 // encode to Json and write data to file.
 extension Encodable {
-    func writeJSONData() -> Bool? {
+    func writeJSONData(fileName: String) -> Bool? {
         let encoder = JSONEncoder() // Json encoder object.
         encoder.outputFormatting = .prettyPrinted
         guard let jsonData = try? encoder.encode(self) else { return false } //encodes the data that is passed to writeJSONData function.
-        let file = "UsersLocations.json" // file to store user data.
+        let file = fileName // file to store user data.
         
         if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
             

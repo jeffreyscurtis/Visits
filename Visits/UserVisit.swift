@@ -11,7 +11,7 @@ import Foundation
 import CoreLocation
 import MapKit
 import Contacts
-struct UserVisit {
+struct UserVisit:Codable{
     
     var LocationCounter:Int?
     var Latitude:Double?
