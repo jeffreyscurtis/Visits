@@ -38,6 +38,7 @@ struct UserVisit {
     var InlandWater:String?
     var HorizontalAccuracy:Double?
     var VerticalAccuracy:Double?
+    var UID:UUID?
     
     struct AreasOfIntrest: Codable {
         var name: String

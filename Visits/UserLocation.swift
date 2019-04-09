@@ -10,8 +10,11 @@ import Foundation
 import CoreLocation
 import MapKit
 import Contacts
+
+
 struct UserLocation:Codable {
     
+   
     
     var LocationCounter:Int?
     var Latitude:Double?
@@ -32,11 +35,11 @@ struct UserLocation:Codable {
     var Time:Date?
     var Address:String?
     var AreasOfInterest:[String]?
-    var UUID:String?
     var Ocean:String?
     var InlandWater:String?
     var HorizontalAccuracy:Double?
     var VerticalAccuracy:Double?
+    var UID:UUID?
 
     struct AreasOfIntrest: Codable {
         var name: String
@@ -71,7 +74,7 @@ struct UserLocation:Codable {
         userLocationDictionary[LocationKeys.HorizontalAccuracy] = location.horizontalAccuracy
         userLocationDictionary[LocationKeys.VerticalAccuracy] = location.verticalAccuracy
         userLocationDictionary[LocationKeys.Region] = place.region
-        userLocationDictionary[LocationKeys.UUID] = NSUUID.init().uuidString
+      
         return userLocationDictionary
         
     

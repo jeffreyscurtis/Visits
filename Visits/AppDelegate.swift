@@ -48,12 +48,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        
+            if self.userLocations.writeJSONData() ?? false{
+                print("User data has been written to 'UserLocation.json'")
+            }else{
+                print("User data has failed.")
+            }
+    
+        
+        
+        
+        
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        self.userLocations.readJSONData();
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -82,7 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             case .authorizedAlways:
                 // Enable any of your app's location features
                 //enableMyAlwaysFeatures()
-                locationManager .startUpdatingLocation()
+                //locationManager .startUpdatingLocation()
                 locationManager.startMonitoringVisits()
                 locationManager.startMonitoringSignificantLocationChanges()
                 break
@@ -156,6 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                         place.InlandWater = userLocationDictionary[LocationKeys.InlandWater] as? String
                         place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
                         place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
+                        place.UID = UUID.init()
                         
                         
                         let nc = NotificationCenter.default
@@ -216,16 +229,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     place.InlandWater = userLocationDictionary[LocationKeys.InlandWater] as? String
                     place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
                     place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
-                    place.UUID = userLocationDictionary[LocationKeys.UUID] as? String
+                    place.UID = UUID.init()
                     //test to write array of json
                     self.userLocations .insert(place, at: 0)
-                    if self.userLocations.count == 10{
-                        if self.userLocations.writeJSONData() ?? false{
-                            print("User data has been written to 'UserLocation.json'")
-                        }else{
-                            print("User data has failed.")
-                        }
-                    }
+                    
                  
                 
                     let nc = NotificationCenter.default
@@ -295,6 +302,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
 
 }
+
+extension Decodable{
+    
+    func readJSONData() ->Bool{
+        var fileRead = false
+        
+        let file = "UsersLocations.json" // file to store user data.
+        
+        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            do {
+            
+                // appends file to directory path.
+                let fileURL = dir.appendingPathComponent(file)
+                print(fileURL.path) //prints out the file path to where the data is being store.
+                let data = try Data(contentsOf: fileURL)
+                
+                
+                let decoder = JSONDecoder()
+                let JSONData = try decoder.decode([UserLocation].self, from: data)
+                
+                print(JSONData)
+            
+    
+            } catch {
+                print(error)
+            }
+        }
+        return fileRead
+    }
+}
 // encode to Json and write data to file.
 extension Encodable {
     func writeJSONData() -> Bool? {
@@ -318,7 +355,7 @@ extension Encodable {
             }
             if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
                
-                fileHandle.seekToEndOfFile()
+                //fileHandle.seekToEndOfFile()
                 fileHandle.write(jsonData)
                 return true
             } else{

@@ -216,6 +216,8 @@ class MainTableViewController: UITableViewController {
         let options = MKMapSnapshotter.Options.init()
         
         options.scale = UIScreen.main.scale
+        options.mapType = MKMapType.hybrid;
+        
         options.size = CGSize(width: 100, height: 200)
         options.region = MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 200.0, longitudinalMeters: 200.0);
         let snapshotter = MKMapSnapshotter.init(options: options)
