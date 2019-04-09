@@ -346,23 +346,19 @@ extension Encodable {
             let fileURL = dir.appendingPathComponent(file)
             
             print("Writing to file... \n")
-            let fileManager = FileManager.default
-            print(fileURL.path) //prints out the file path to where the data is being store.
-            if fileManager.fileExists(atPath: fileURL.path) {
-                print("FILE AVAILABLE")
-            } else {
-                FileManager.default.createFile(atPath: fileURL.path, contents: nil, attributes: nil)
-            }
-            if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
-               
-                //fileHandle.seekToEndOfFile()
-                fileHandle.write(jsonData)
-                return true
-            } else{
+            //let fileManager = FileManager.default
+            print(fileURL.path)
+            
+            do{
+                try jsonData.write(to: fileURL)
+                return true;
                 
                 
+            }catch{
+                print("Failed to write date")
+                return false
             }
-          
+            
         }
         return false
     }
