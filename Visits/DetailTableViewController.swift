@@ -9,6 +9,8 @@
 import UIKit
 
 class DetailTableViewController: UITableViewController {
+    var locations = UserLocation()
+    
     @IBAction func MapButtonPressed(_ sender: Any) {
         let storyBoard = UIStoryboard.init(name: "MapStoryboard", bundle: nil)
         guard let viewController = storyBoard.instantiateInitialViewController() else {
@@ -42,18 +44,19 @@ class DetailTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 1
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! LocationTableViewCell
+        
+        cell.TextView.text = UserLocation.getAddressDict(location: self.locations).debugDescription
         // Configure the cell...
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

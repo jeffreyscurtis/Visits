@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     /// visit data structures
     //var userVisits = [CLVisit]()
     var userVisits = [UserLocation]()
-    var userVisitPlaceMarks = [MKPlacemark]()
+    //var userVisitPlaceMarks = [MKPlacemark]()
 
     //structure for images
    
@@ -84,6 +84,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.userLocations.readJSONData(fileName: "UserLocations.json")
         self.userVisits.readJSONData(fileName: "UserVisits.json")
         print(self.userLocations)
+        print("******** User Visits *********")
+        print(self.userVisits)
         locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
         print("App from background " + locationEnabled.description)
         if locationEnabled{
@@ -137,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         print("got visit")
         if(visit.departureDate==NSDate.distantFuture || visit.arrivalDate == NSDate.distantPast){
             // we dont want these as the visits are only half visists
+            print("***** ***** Only half a visit ****** *********")
         }else{
             //
             //self.userVisits.insert(visit, at: 0);
@@ -158,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                         //add placemarks and userlocation to app array , this needs to go to a database instead
                         //we are inserting at 0 so the most recent location is removed first in table view
                        
-                        self.userVisits.insert(place, at: 0)
+                        
                         
                         place.Latitude = userLocationDictionary[LocationKeys.Latitude] as? Double
                         place.Longitude = userLocationDictionary[LocationKeys.Longitude] as? Double
@@ -183,8 +186,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                         place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
                         place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
                         place.UID = UUID.init()
-                        
-                        
+                        place.ArrivalTime = userLocationDictionary[LocationKeys.ArrivalTime] as? Date
+                        place.DepartureTime = userLocationDictionary[LocationKeys.DepartureTime] as? Date
+                        self.userVisits.insert(place, at: 0)
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("VisitsPlaceMark"), object: nil, userInfo: userLocationDictionary)
                     }

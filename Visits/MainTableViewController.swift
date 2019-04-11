@@ -179,7 +179,7 @@ class MainTableViewController: UITableViewController {
                     let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
                     let userdict = UserLocation.getAddressDict(location: userLocation)
                     let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                    print("place --->")
+                    print("location place --->")
                     print(mapMarker)
                     placemarks.append(mapMarker)
                     
@@ -193,7 +193,7 @@ class MainTableViewController: UITableViewController {
                     let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
                     let userdict = UserLocation.getAddressDict(location: userLocation)
                     let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                    print("place --->")
+                    print("visitor place --->")
                     print(mapMarker)
                     placemarks.append(mapMarker)
                     
@@ -296,11 +296,18 @@ class MainTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("<><><><><><><><>")
         let storyBoard = UIStoryboard.init(name: "DetailsStoryboard", bundle: nil)
-        guard let viewController = storyBoard.instantiateInitialViewController() else {
+        guard let viewController  = storyBoard.instantiateInitialViewController() as! DetailTableViewController?  else {
             print("failed")
             return
             
         }
+        if(self.visitTypeSegment.selectedSegmentIndex==0){
+            viewController.locations = userVisits[indexPath.row]
+        }else{
+            viewController.locations = userLocations[indexPath.row]
+            
+        }
+        
         if let navigator = self.navigationController{
             navigator .pushViewController(viewController, animated: true)
         }
