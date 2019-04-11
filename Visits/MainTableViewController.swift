@@ -22,6 +22,7 @@ class MainTableViewController: UITableViewController {
     var userLocations = [UserLocation]()
     var userSnapShots = [UUID: UIImage]()
     
+    
     // MARK: - GUI Connections and Actions
     
     @IBOutlet weak var headerView: UIView!
@@ -51,46 +52,6 @@ class MainTableViewController: UITableViewController {
     }
     
     @IBAction func vistTypeChanged(_ sender: UISegmentedControl) {
-        userVisits = self.application.userVisits;
-        userLocations = self.application.userLocations;
-        print("placemarks ")
-        print(userLocations)
-        var placemarks = [MKPlacemark]()
-        mapView.removeAnnotations(mapView.annotations)
-        if(visitTypeSegment.selectedSegmentIndex == 1){
-           
-            //mapView.addAnnotations(self.application.userLocationPlaceMarks)
-            for userLocation:UserLocation in userLocations{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
-            
-            }
-            
-        }else{
-            
-            print("********")
-            print(userVisits)
-            for userLocation:UserLocation in userVisits{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let placeMark = MKPlacemark.init(coordinate: coordinate, addressDictionary:UserLocation.getAddressDict(location: userLocation) )
-                 placemarks.append(placeMark)
-                
-            }
-        }
-        
-        print(placemarks)
-        mapView.addAnnotations(placemarks)
-        
         self.reloadTableData()
         
     }
@@ -121,8 +82,8 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        userVisits = self.application.userVisits;
-        userLocations = self.application.userLocations;
+        self.userVisits = self.application.userVisits;
+        self.userLocations = self.application.userLocations;
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
             self .performSegue(withIdentifier: "showMain", sender: self)
         }
@@ -200,39 +161,51 @@ class MainTableViewController: UITableViewController {
     
     func reloadTableData(){
         //reload table view items
+        self.userVisits = self.application.userVisits;
+        self.userLocations = self.application.userLocations;
+        self.mapView.removeAnnotations(self.mapView.annotations)
         var placemarks = [MKPlacemark]()
-        mapView.removeAnnotations(mapView.annotations)
-        if(visitTypeSegment.selectedSegmentIndex == 1){
-            
-            self.userLocations = application.userLocations
-            for userLocation:UserLocation in userLocations{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
-            
-            }
-        }else{
-            
-            for userLocation:UserLocation in self.userVisits{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
+        
+        let segmentValue = self.visitTypeSegment.selectedSegmentIndex
+        DispatchQueue.global().async {
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            if(segmentValue == 1){
                 
+                self.userLocations = self.application.userLocations
+                for userLocation:UserLocation in self.userLocations{
+                    if(userLocation.Latitude == nil || userLocation.Longitude == nil){
+                        return;
+                    }
+                    let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
+                    let userdict = UserLocation.getAddressDict(location: userLocation)
+                    let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
+                    print("place --->")
+                    print(mapMarker)
+                    placemarks.append(mapMarker)
+                    
+                }
+            }else{
+                
+                for userLocation:UserLocation in self.userVisits{
+                    if(userLocation.Latitude == nil || userLocation.Longitude == nil){
+                        return;
+                    }
+                    let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
+                    let userdict = UserLocation.getAddressDict(location: userLocation)
+                    let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
+                    print("place --->")
+                    print(mapMarker)
+                    placemarks.append(mapMarker)
+                    
+                }
+            }
+            DispatchQueue.main.async {
+                self.mapView.addAnnotations(placemarks)
             }
         }
-        mapView.addAnnotations(placemarks)
+        
+        
+        
         self.tableView.reloadData()
         
     }
@@ -256,12 +229,19 @@ class MainTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let locationType = visitTypeSegment.selectedSegmentIndex
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
         
-        cell.MapImage.image = UIImage.init(contentsOfFile: "default-placeholder.png")
         var place = UserLocation()
-        place = self.userLocations[indexPath.row]
+        
+        cell.MapImage.image = UIImage.init(contentsOfFile: "default-placeholder.png")
+        if (locationType == 1){
+            place = self.userLocations[indexPath.row]
+        }else{
+            place = self.userVisits[indexPath.row]
+        }
+       
+       
         //let street0  = (place.Name ?? "")
         let street1  = (place.Name ?? "") + " " + (place.City ?? "")
         let street2  = (place.State ?? "") + " " + (place.CountryCode ?? "")
@@ -288,7 +268,9 @@ class MainTableViewController: UITableViewController {
             cell.BottomLabel.text = "\(place.DepartureTime ?? Date.distantFuture)"
             
         }
-        if let image = userSnapShots[place.UID!]{
+        
+        if place.UID != nil{
+            if let image = self.userSnapShots[place.UID!]{
             cell.MapImage.image = image;
         }else{
             let options = MKMapSnapshotter.Options.init()
@@ -305,6 +287,8 @@ class MainTableViewController: UITableViewController {
 
             }
         }
+        
+    }
         
         return cell
     }
