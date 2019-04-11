@@ -22,16 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     /// location data structures
     /// this is an array of Map Placemarks -- used currently to update values
-    var userLocationPlaceMarks = [MKPlacemark]()
+    //var userLocationPlaceMarks = [MKPlacemark]()
     /// this is the array of UserLocations will be used to update the tables
     var userLocations = [UserLocation]()
     
     
     
     /// visit data structures
-    var userVisits = [CLVisit]()
-    var userVisitsWithDetails = [UserVisit]()
+    //var userVisits = [CLVisit]()
+    var userVisits = [UserLocation]()
     var userVisitPlaceMarks = [MKPlacemark]()
+
+    //structure for images
+   
     
     var window: UIWindow?
     
@@ -55,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             }else{
                 print("User data has failed.")
             }
-        if self.userVisitsWithDetails.writeJSONData(fileName: "UserVisists.json") ?? false{
+        if self.userVisits.writeJSONData(fileName: "UserVisits.json") ?? false{
             print("User data has been written to 'UserVisits.json'")
         }else{
             print("User Visits has failed.")
@@ -69,14 +72,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        self.userLocations.readJSONData(fileName: "UserLocations.json")
-        self.userVisitsWithDetails.readJSONData(fileName: "UserVisits.json")
+        print(self.userLocations.readJSONData(fileName: "UserLocations.json"))
+        print(self.userVisits.readJSONData(fileName: "UserVisits.json"))
+        print(self.userLocations)
         
         
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        self.userLocations.readJSONData(fileName: "UserLocations.json")
+        self.userVisits.readJSONData(fileName: "UserVisits.json")
+        print(self.userLocations)
         locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
         print("App from background " + locationEnabled.description)
         if locationEnabled{
@@ -132,7 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             // we dont want these as the visits are only half visists
         }else{
             //
-            self.userVisits.insert(visit, at: 0);
+            //self.userVisits.insert(visit, at: 0);
             let location = CLLocation .init(latitude: visit.coordinate.latitude, longitude: visit.coordinate.longitude)
             let geocoder = CLGeocoder()
             geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
@@ -144,14 +151,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     // Most geocoding requests contain only one result.
                     if let firstPlacemark = placemarks?.first {
                         //create structure
-                        var place = UserVisit()
+                        var place = UserLocation()
 
-                        let userLocationDictionary = UserVisit.getUserLocationDictionary(place: firstPlacemark, andLocation: location, andVisit: visit)
+                        let userLocationDictionary = UserLocation.getUserLocationDictionary(place: firstPlacemark, andLocation: location, andVisit: visit)
                         
                         //add placemarks and userlocation to app array , this needs to go to a database instead
                         //we are inserting at 0 so the most recent location is removed first in table view
-                        self.userVisitPlaceMarks.insert(UserVisit.getMapMarker(location: location, place: firstPlacemark), at: 0)
-                        self.userVisitsWithDetails.insert(place, at: 0)
+                       
+                        self.userVisits.insert(place, at: 0)
                         
                         place.Latitude = userLocationDictionary[LocationKeys.Latitude] as? Double
                         place.Longitude = userLocationDictionary[LocationKeys.Longitude] as? Double
@@ -207,10 +214,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                    
                     
                     /// create a dictionary form the placemark and location
-                    let userLocationDictionary = UserLocation .getUserLocationDictionary(place: firstPlacemark, andLocation: location)
+                    let userLocationDictionary = UserLocation .getUserLocationDictionary(place: firstPlacemark, andLocation: location, andVisit: nil)
                    
                     /// create a map marker and add to the array
-                    self.userLocationPlaceMarks.insert(UserLocation.getMapMarker(location: location, place: firstPlacemark), at: 0)
+                   // self.userLocationPlaceMarks.insert(UserLocation.getMapMarker(location: location, place: firstPlacemark), at: 0)
                     /// create the userLocation struct
                     var place = UserLocation .init()
                     
@@ -237,6 +244,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                     place.HorizontalAccuracy = userLocationDictionary[LocationKeys.HorizontalAccuracy] as? Double
                     place.VerticalAccuracy = userLocationDictionary[LocationKeys.VerticalAccuracy] as? Double
                     place.UID = UUID.init()
+                
                     //test to write array of json
                     self.userLocations .insert(place, at: 0)
                     
@@ -306,14 +314,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         }
         
     }
-
-
+  
 }
 
 extension Decodable{
     
-    func readJSONData(fileName: String ) ->Bool{
-        var fileRead = false
+    mutating func readJSONData(fileName: String ) {
+      
         
         let file = fileName // file to store user data.
         
@@ -327,23 +334,17 @@ extension Decodable{
                 
                 
                 let decoder = JSONDecoder()
-                if fileName == "UserLocations.json"{
-                    _ = try decoder.decode([UserLocation].self, from: data)
-                }else{
-                    _ = try decoder.decode([UserVisit].self, from: data)
-                    
-                }
+               
+                self = try decoder.decode([UserLocation].self, from: data) as! Self
                 
-                
-                fileRead = true
-    
             } catch {
                 print(error)
             }
         }
-        return fileRead
+        
     }
 }
+
 // encode to Json and write data to file.
 extension Encodable {
     func writeJSONData(fileName: String) -> Bool? {

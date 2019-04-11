@@ -40,7 +40,9 @@ struct UserLocation:Codable {
     var HorizontalAccuracy:Double?
     var VerticalAccuracy:Double?
     var UID:UUID?
-
+    var ArrivalTime:Date?
+    var DepartureTime:Date?
+  
     struct AreasOfIntrest: Codable {
         var name: String
     }
@@ -49,7 +51,7 @@ struct UserLocation:Codable {
     
     
     /// used as a helper if a dictioanary is needed of the Structure
-    static func getUserLocationDictionary(place:CLPlacemark, andLocation location:CLLocation )-> [LocationKeys: Any]{
+    static func getUserLocationDictionary(place:CLPlacemark, andLocation location:CLLocation, andVisit visit:CLVisit? )-> [LocationKeys: Any]{
         
         
         var userLocationDictionary: [LocationKeys: Any]=[:]
@@ -74,10 +76,29 @@ struct UserLocation:Codable {
         userLocationDictionary[LocationKeys.HorizontalAccuracy] = location.horizontalAccuracy
         userLocationDictionary[LocationKeys.VerticalAccuracy] = location.verticalAccuracy
         userLocationDictionary[LocationKeys.Region] = place.region
-      
+        userLocationDictionary[LocationKeys.ArrivalTime] = visit?.arrivalDate
+        userLocationDictionary[LocationKeys.DepartureTime] = visit?.departureDate
         return userLocationDictionary
         
     
+    }
+    static func getAddressDict(location:UserLocation) ->[String: Any]{
+        
+        var userLocationDictionary: [String: Any]=[:]
+        
+       
+       
+        userLocationDictionary["postalCode"] = location.Postalcode
+        userLocationDictionary["country"] = location.Country
+        userLocationDictionary["subLocality"]=location.SubLocality
+        userLocationDictionary["city"] = location.City
+        userLocationDictionary["street"] = location.Street
+        userLocationDictionary["state"] = location.State
+        userLocationDictionary["isoCountryCode"] = location.CountryCode
+        
+        return userLocationDictionary
+        
+        
     }
     // used to generate
     static func getMapMarker(location: CLLocation, place:CLPlacemark)->MKPlacemark{
