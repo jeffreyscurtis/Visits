@@ -101,10 +101,10 @@ class MainTableViewController: UITableViewController {
                        name: Notification.Name("VisitPlaceMark"), object: nil)
         
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 600
+        //tableView.estimatedRowHeight = 600
         self.tableView.estimatedRowHeight=200;
        
-        self.clearsSelectionOnViewWillAppear = false;
+        self.clearsSelectionOnViewWillAppear = true;
         self.tableView.scrollsToTop = true;
         
         refreshControl?.backgroundColor = self.navigationController?.navigationBar.barTintColor? .withAlphaComponent(0.65)
@@ -266,6 +266,7 @@ class MainTableViewController: UITableViewController {
         }else{
             cell.TopLabel.text = "\(place.ArrivalTime ?? Date.distantPast)"
             cell.BottomLabel.text = "\(place.DepartureTime ?? Date.distantFuture)"
+            cell.TextView.text = stringAddress
             
         }
         
