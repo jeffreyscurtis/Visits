@@ -23,9 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
     /// Location manager for the location services
     let locationManager = CLLocationManager()
-    
+    let VISIT_FILENAME = "UserVisits.json"
+    let LOCATION_FILENAME = "UserLocations.json"
     /// location data structures
-    /// this is an array of Map Placemarks -- used currently to update values
+    
   
     /// this is the array of UserLocations will be used to update the tables
     var userLocations = [UserLocation]()
@@ -52,13 +53,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         
-        if self.userLocations.writeJSONData(fileName: "UserLocations.json") ?? false{
-                print("User data has been written to 'UserLocation.json'")
+        if self.userLocations.writeJSONData(fileName: self.LOCATION_FILENAME) ?? false{
+                print("User data has been written to " + self.LOCATION_FILENAME)
             }else{
                 print("User data has failed.")
             }
-        if self.userVisits.writeJSONData(fileName: "UserVisits.json") ?? false{
-            print("User data has been written to 'UserVisits.json'")
+        if self.userVisits.writeJSONData(fileName: self.VISIT_FILENAME) ?? false{
+            print("User data has been written to " + self.VISIT_FILENAME)
         }else{
             print("User Visits has failed.")
         }
@@ -71,22 +72,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        print(self.userLocations.readJSONData(fileName: "UserLocations.json"))
-        print(self.userVisits.readJSONData(fileName: "UserVisits.json"))
-        print(self.userLocations)
+        print(self.userLocations.readJSONData(fileName: self.LOCATION_FILENAME))
+        print(self.userVisits.readJSONData(fileName: self.VISIT_FILENAME))
+        
+        for location:UserLocation in self.userLocations{
+            print("******* locations *****")
+            print(location)
+        }
+        for visit:UserLocation in self.userVisits{
+            print("****** Visits ******")
+            print(visit)
+        }
         
         
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        self.userLocations.readJSONData(fileName: "UserLocations.json")
-        self.userVisits.readJSONData(fileName: "UserVisits.json")
+        self.userLocations.readJSONData(fileName: self.LOCATION_FILENAME)
+        self.userVisits.readJSONData(fileName: VISIT_FILENAME)
         print(self.userLocations)
         print("******** User Visits *********")
         print(self.userVisits)
         locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
         print("App from background " + locationEnabled.description)
+       
         if locationEnabled{
             locationManager.delegate = self
             
@@ -187,7 +197,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                         place.UID = UUID.init()
                         place.ArrivalTime = userLocationDictionary[LocationKeys.ArrivalTime] as? Date
                         place.DepartureTime = userLocationDictionary[LocationKeys.DepartureTime] as? Date
+                        
                         self.userVisits.insert(place, at: 0)
+                        if self.userVisits .writeJSONData(fileName: self.VISIT_FILENAME) ?? false{
+                            print("write to visit good")
+                        }
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("VisitsPlaceMark"), object: nil, userInfo: userLocationDictionary)
                     }
@@ -250,6 +264,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 
                     //test to write array of json
                     self.userLocations .insert(place, at: 0)
+                    if self.userLocations .writeJSONData(fileName: self.LOCATION_FILENAME) ?? false{
+                        print("write to locations good")
+                    }
                     
                  
                 

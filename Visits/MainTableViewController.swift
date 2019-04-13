@@ -18,8 +18,10 @@ class MainTableViewController: UITableViewController {
     let refreshControler  = UIRefreshControl .init()
     //var locationTextCell = LocationTableViewCell()
     let kHeaderHeight:CGFloat = 250
-    var userVisits = [UserLocation]()
-    var userLocations = [UserLocation]()
+    //table data
+    var tableData = [UserLocation]()
+   // var userVisits = [UserLocation]()
+   // var userLocations = [UserLocation]()
     var userSnapShots = [UUID: UIImage]()
     
     
@@ -82,8 +84,9 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.userVisits = self.application.userVisits;
-        self.userLocations = self.application.userLocations;
+        self.tableData = self.application.userVisits
+      //  self.userVisits = self.application.userVisits;
+      //  self.userLocations = self.application.userLocations;
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
             self .performSegue(withIdentifier: "showMain", sender: self)
         }
@@ -161,18 +164,22 @@ class MainTableViewController: UITableViewController {
     
     func reloadTableData(){
         //reload table view items
-        self.userVisits = self.application.userVisits;
-        self.userLocations = self.application.userLocations;
+       // self.userVisits = self.application.userVisits;
+       // self.userLocations = self.application.userLocations;
         self.mapView.removeAnnotations(self.mapView.annotations)
         var placemarks = [MKPlacemark]()
-        
+        if(self.visitTypeSegment.selectedSegmentIndex == 0){
+            self.tableData = self.application.userVisits
+        }else{
+            self.tableData = self.application.userLocations
+        }
         let segmentValue = self.visitTypeSegment.selectedSegmentIndex
         DispatchQueue.global().async {
             self.mapView.removeAnnotations(self.mapView.annotations)
             if(segmentValue == 1){
                 
-                self.userLocations = self.application.userLocations
-                for userLocation:UserLocation in self.userLocations{
+                
+                for userLocation:UserLocation in self.application.userLocations{
                     if(userLocation.Latitude == nil || userLocation.Longitude == nil){
                         return;
                     }
@@ -186,7 +193,7 @@ class MainTableViewController: UITableViewController {
                 }
             }else{
                 
-                for userLocation:UserLocation in self.userVisits{
+                for userLocation:UserLocation in self.application.userVisits{
                     if(userLocation.Latitude == nil || userLocation.Longitude == nil){
                         return;
                     }
@@ -218,29 +225,17 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if (visitTypeSegment.selectedSegmentIndex == 1){
-           
-           return self.userLocations.count
-        }else{
-            
-           return self.userVisits.count
-        }
+        return self.tableData.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let locationType = visitTypeSegment.selectedSegmentIndex
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
         
-        var place = UserLocation()
-        
+        let place = self.tableData[indexPath.row]
         cell.MapImage.image = UIImage.init(contentsOfFile: "default-placeholder.png")
-        if (locationType == 1){
-            place = self.userLocations[indexPath.row]
-        }else{
-            place = self.userVisits[indexPath.row]
-        }
-       
+ 
        
         //let street0  = (place.Name ?? "")
         let street1  = (place.Name ?? "") + " " + (place.City ?? "")
@@ -254,7 +249,7 @@ class MainTableViewController: UITableViewController {
         
         
         
-        if (visitTypeSegment.selectedSegmentIndex == 1){
+        if (place.ArrivalTime == nil){
             cell.TopLabel.text = "\(place.Time ?? Date.distantPast)"
             cell.TextView.text = stringAddress
             if stringAddress.count < 2{
@@ -274,6 +269,7 @@ class MainTableViewController: UITableViewController {
             if let image = self.userSnapShots[place.UID!]{
             cell.MapImage.image = image;
         }else{
+            
             let options = MKMapSnapshotter.Options.init()
             options.scale = UIScreen.main.scale
             options.mapType = MKMapType.standard
@@ -283,6 +279,7 @@ class MainTableViewController: UITableViewController {
             let snapshotter = MKMapSnapshotter.init(options: options)
             snapshotter .start { (snapshot, error) in
                 let image = snapshot?.image
+               
                 cell.MapImage.image = image
                 self.userSnapShots[place.UID!] = image
 
@@ -302,12 +299,9 @@ class MainTableViewController: UITableViewController {
             return
             
         }
-        if(self.visitTypeSegment.selectedSegmentIndex==0){
-            viewController.locations = userVisits[indexPath.row]
-        }else{
-            viewController.locations = userLocations[indexPath.row]
-            
-        }
+      
+            viewController.locations = self.tableData[indexPath.row]
+      
         
         if let navigator = self.navigationController{
             navigator .pushViewController(viewController, animated: true)
