@@ -8,14 +8,16 @@
 
 import UIKit
 
-class LocationTableViewCell: UITableViewCell {
+class LocationTableViewCell: UITableViewCell{
 
     @IBOutlet weak var MapImage: UIImageView!
     @IBOutlet weak var TopLabel: UILabel!
     @IBOutlet weak var TextView: UITextView!
     @IBOutlet weak var BottomLabel: UILabel!
+    var UID = UUID();
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         // Initialization code
     }
 
@@ -24,5 +26,7 @@ class LocationTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
 
 }

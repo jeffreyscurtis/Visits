@@ -13,15 +13,14 @@ import Contacts
 /// This is the main tableview controller
 class MainTableViewController: UITableViewController {
     // MARK: - Instance Variables
-    
+    // get the app delegate
     let application = UIApplication.shared.delegate as! AppDelegate
     let refreshControler  = UIRefreshControl .init()
     //var locationTextCell = LocationTableViewCell()
     let kHeaderHeight:CGFloat = 250
     //table data
     var tableData = [UserLocation]()
-   // var userVisits = [UserLocation]()
-   // var userLocations = [UserLocation]()
+    //image data for locations, uses uuid for key in a hashmap
     var userSnapShots = [UUID: UIImage]()
     
     
@@ -32,7 +31,7 @@ class MainTableViewController: UITableViewController {
 
     
     @IBOutlet weak var mapView: MKMapView!
-    
+    // actions called when the map type button is selected
     @IBAction func setMapType(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -52,7 +51,7 @@ class MainTableViewController: UITableViewController {
             
         }
     }
-    
+    //when the visit button chnages reload the table model and refresh
     @IBAction func vistTypeChanged(_ sender: UISegmentedControl) {
         self.reloadTableData()
         
@@ -60,7 +59,9 @@ class MainTableViewController: UITableViewController {
     
     @IBOutlet weak var visitTypeSegment: UISegmentedControl!
     
+    //this action moves to the big map controller
     @IBAction func mapButtonPressed(_ sender: UIBarButtonItem){
+        // setup storyboard to push
         let storyBoard = UIStoryboard.init(name: "MapStoryboard", bundle: nil)
         guard let viewController = storyBoard.instantiateInitialViewController() else {
             print("failed")
@@ -73,20 +74,27 @@ class MainTableViewController: UITableViewController {
        
 
     }
+    
     // MARK:  - Overidden View Controller Functions
+    
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
-        if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
+        if (CLLocationManager.authorizationStatus()  != CLAuthorizationStatus.authorizedAlways){
             self .performSegue(withIdentifier: "showMain", sender: self)
         }
     }
-    // required overload used when view is loaded
+    
+    //when view controller loads this inits the controller
     override func viewDidLoad() {
+       
         
         super.viewDidLoad()
+        
+        /*
+         This sets up the data model for the controller
+ 
+         */
         self.tableData = self.application.userVisits
-      //  self.userVisits = self.application.userVisits;
-      //  self.userLocations = self.application.userLocations;
         if (!UserDefaults.standard.bool(forKey: "locationEnabled")){
             self .performSegue(withIdentifier: "showMain", sender: self)
         }
@@ -104,11 +112,10 @@ class MainTableViewController: UITableViewController {
                        name: Notification.Name("VisitPlaceMark"), object: nil)
         
         tableView.rowHeight = UITableView.automaticDimension
-        //tableView.estimatedRowHeight = 600
         self.tableView.estimatedRowHeight=200;
-       
         self.clearsSelectionOnViewWillAppear = true;
         self.tableView.scrollsToTop = true;
+        //self.tableView.sectionIndexTrackingBackgroundColor = UIColor.blue
         
         refreshControl?.backgroundColor = self.navigationController?.navigationBar.barTintColor? .withAlphaComponent(0.65)
         mapView.backgroundColor=UIColor .black
@@ -163,9 +170,7 @@ class MainTableViewController: UITableViewController {
     //MARK: - Internal functions
     
     func reloadTableData(){
-        //reload table view items
-       // self.userVisits = self.application.userVisits;
-       // self.userLocations = self.application.userLocations;
+      
         self.mapView.removeAnnotations(self.mapView.annotations)
         var placemarks = [MKPlacemark]()
         if(self.visitTypeSegment.selectedSegmentIndex == 0){
@@ -235,7 +240,8 @@ class MainTableViewController: UITableViewController {
         
         let place = self.tableData[indexPath.row]
         cell.MapImage.image = UIImage.init(contentsOfFile: "default-placeholder.png")
- 
+     
+        
        
         //let street0  = (place.Name ?? "")
         let street1  = (place.Name ?? "") + " " + (place.City ?? "")
@@ -243,9 +249,7 @@ class MainTableViewController: UITableViewController {
         let street3  = (place.Country ?? "")
         
         let stringAddress = street1 + " " + street2 + " " + street3
-        // stringAddress = stringAddress + " " place.City
-        
-        //+ " " + " " + place.State + " " + place.PostalCode + " " + place.Country
+       
         
         
         
@@ -259,8 +263,8 @@ class MainTableViewController: UITableViewController {
     
             }
         }else{
-            cell.TopLabel.text = "\(place.ArrivalTime ?? Date.distantPast)"
-            cell.BottomLabel.text = "\(place.DepartureTime ?? Date.distantFuture)"
+            cell.BottomLabel.text = "\(place.ArrivalTime ?? Date.distantPast)"
+            cell.TopLabel.text = "\(place.DepartureTime ?? Date.distantFuture)"
             cell.TextView.text = stringAddress
             
         }
