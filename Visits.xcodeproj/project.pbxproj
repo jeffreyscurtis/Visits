@@ -25,6 +25,8 @@
 		4F81945E224F478100D8A489 /* LocationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F81945D224F478100D8A489 /* LocationKeys.swift */; };
 		4F819460224F91F500D8A489 /* city1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F81945F224F91F500D8A489 /* city1024.png */; };
 		4F819462224F9DCB00D8A489 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F819461224F9DCB00D8A489 /* LocationTableViewCell.swift */; };
+		4F84486C22628CB600556172 /* HeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F84486B22628CB600556172 /* HeaderFooterView.swift */; };
+		4F84486E22628DF200556172 /* HeaderFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F84486D22628DF200556172 /* HeaderFooterView.xib */; };
 		4FB6FD96224B86AD00CF6888 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB6FD95224B86AD00CF6888 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +51,8 @@
 		4F81945D224F478100D8A489 /* LocationKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationKeys.swift; sourceTree = "<group>"; };
 		4F81945F224F91F500D8A489 /* city1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = city1024.png; sourceTree = "<group>"; };
 		4F819461224F9DCB00D8A489 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
+		4F84486B22628CB600556172 /* HeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderFooterView.swift; sourceTree = "<group>"; };
+		4F84486D22628DF200556172 /* HeaderFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderFooterView.xib; sourceTree = "<group>"; };
 		4FB6FD95224B86AD00CF6888 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -90,6 +94,8 @@
 				4F81945D224F478100D8A489 /* LocationKeys.swift */,
 				4F81945B224F3D8F00D8A489 /* UserLocation.swift */,
 				4F51A6C022482F9500D1714C /* Main.storyboard */,
+				4F84486D22628DF200556172 /* HeaderFooterView.xib */,
+				4F84486B22628CB600556172 /* HeaderFooterView.swift */,
 				4F51A6D22248443500D1714C /* MainTableViewController.swift */,
 				4F819461224F9DCB00D8A489 /* LocationTableViewCell.swift */,
 				4F51A6BE22482F9500D1714C /* StartUpViewController.swift */,
@@ -179,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F84486E22628DF200556172 /* HeaderFooterView.xib in Resources */,
 				4F51A6CF2248306500D1714C /* modern-cartoon-city.jpg in Resources */,
 				4F81945A224EBDA800D8A489 /* location@3x.png in Resources */,
 				4F254016225127F1002A0EED /* MapStoryboard.storyboard in Resources */,
@@ -205,6 +212,7 @@
 				4F52571C225301A00020718D /* MapViewController.swift in Sources */,
 				4F52571A2253015E0020718D /* DetailTableViewController.swift in Sources */,
 				4F51A6D32248443500D1714C /* MainTableViewController.swift in Sources */,
+				4F84486C22628CB600556172 /* HeaderFooterView.swift in Sources */,
 				4F51A6BD22482F9500D1714C /* AppDelegate.swift in Sources */,
 				4F81945C224F3D8F00D8A489 /* UserLocation.swift in Sources */,
 			);

@@ -29,6 +29,7 @@ class MainTableViewController: UITableViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var mapSegment: UISegmentedControl!
 
+ 
     
     @IBOutlet weak var mapView: MKMapView!
     // actions called when the map type button is selected
@@ -111,14 +112,20 @@ class MainTableViewController: UITableViewController {
         nc.addObserver(self, selector: #selector(UpdatePlaceMark),
                        name: Notification.Name("VisitPlaceMark"), object: nil)
         
-        tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight=200;
+        self.tableView.sectionHeaderHeight = UITableView.automaticDimension
+        self.tableView.estimatedSectionHeaderHeight = 44
+        
         self.clearsSelectionOnViewWillAppear = true;
         self.tableView.scrollsToTop = true;
-        //self.tableView.sectionIndexTrackingBackgroundColor = UIColor.blue
         
         refreshControl?.backgroundColor = self.navigationController?.navigationBar.barTintColor? .withAlphaComponent(0.65)
         mapView.backgroundColor=UIColor .black
+        tableView.register(UINib(nibName: "HeaderFooterView", bundle: nil), forHeaderFooterViewReuseIdentifier: "headerFooterView")
+
+        
+        
         tableView .addSubview(refreshControler)
         self.updateMapSettings()
         self.refreshControl?.backgroundColor = UIColor .clear
@@ -216,29 +223,44 @@ class MainTableViewController: UITableViewController {
             }
         }
         
-        
-        
-        self.tableView.reloadData()
+         self.tableView.reloadData()
+       
         
     }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return self.tableData.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.tableData.count
+        return 1
     }
 
-    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+   
+        // Here, we use NSFetchedResultsController
+        // And we simply use the section name as title
+       
+        
+        // Dequeue with the reuse identifier
+        let cell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerFooterView") as! HeaderFooterView
+       
+        return cell
+    }
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let cell = self.tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerFooterView") as! HeaderFooterView
+        
+        return cell
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
         let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
         
-        let place = self.tableData[indexPath.row]
+        let place = self.tableData[indexPath.section]
         cell.MapImage.image = UIImage.init(contentsOfFile: "default-placeholder.png")
      
         
