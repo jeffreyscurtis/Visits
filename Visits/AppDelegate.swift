@@ -1,9 +1,12 @@
 //
 //  AppDelegate.swift
 //  Visits
-//
+//  Group 2 Project
 //  Created by Jeffrey Curtis on 3/24/19.
 //  Copyright © 2019 Jeffrey Curtis. All rights reserved.
+//  UMUC CMSC 495
+//  Derek Sappington Main Code
+//
 //
 
 import UIKit
@@ -15,25 +18,21 @@ import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
-    /// persistant store semiphore
+    
+    /// persistant store semaphore
     var locationEnabled = UserDefaults.standard.bool(forKey: "locationEnabled")
     /// Location manager for the location services
     let locationManager = CLLocationManager()
     
     /// location data structures
     /// this is an array of Map Placemarks -- used currently to update values
-    //var userLocationPlaceMarks = [MKPlacemark]()
+  
     /// this is the array of UserLocations will be used to update the tables
     var userLocations = [UserLocation]()
     
-    
-    
     /// visit data structures
-    //var userVisits = [CLVisit]()
+  
     var userVisits = [UserLocation]()
-    //var userVisitPlaceMarks = [MKPlacemark]()
-
-    //structure for images
    
     
     var window: UIWindow?
