@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 import Contacts
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
     let application = UIApplication.shared.delegate as! AppDelegate
     var userLocations = [UserLocation]()
     var userVisits = [UserLocation]()
@@ -18,76 +18,7 @@ class MapViewController: UIViewController {
     
     
     @IBAction func maptypeChanged(_ sender: UISegmentedControl) {
-        mapView.removeAnnotations(mapView.annotations)
-        var placemarks = [MKPlacemark]()
-        self.userVisits = application.userVisits
-        self.userLocations = application.userLocations
-        
-        if(sender.selectedSegmentIndex == 0){
-            
-            for userLocation:UserLocation in userVisits{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
-            }
-            
-            
-        
-            mapView.addAnnotations(placemarks)
-            
-            
-        }else if (sender.selectedSegmentIndex == 1){
-            
-            for userLocation:UserLocation in userLocations{
-                print(userLocation)
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
-            }
-            mapView.addAnnotations(placemarks)
-
-        }else{
-            
-            for userLocation:UserLocation in userLocations{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
-            }
-            mapView.addAnnotations(placemarks)
-        
-            for userLocation:UserLocation in userVisits{
-                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                    return;
-                }
-                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-                let userdict = UserLocation.getAddressDict(location: userLocation)
-                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-                print("place --->")
-                print(mapMarker)
-                placemarks.append(mapMarker)
-            }
-            mapView.addAnnotations(placemarks)
-            
-        }
-        self .updateMapSettings()
+       self.updateMapMarkers()
     }
     
     @IBOutlet weak var mapTypeSegment: UISegmentedControl!
@@ -112,41 +43,123 @@ class MapViewController: UIViewController {
             mapView.mapType = MKMapType.mutedStandard
             
         }
+        self.updateMapMarkers()
     
     }
-   
+    
+   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+    guard let circelOverLay = overlay as? MKCircle else {return MKOverlayRenderer()}
+    
+    let circleRenderer = MKCircleRenderer(circle: circelOverLay)
+    circleRenderer.strokeColor = .green
+    circleRenderer.fillColor = .clear
+    circleRenderer.alpha = 0.2
+    return circleRenderer
+    
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.mapView.delegate = self
         mapView.mapType = MKMapType.standard
         self.mapSegment.selectedSegmentIndex = 0;
         // register for notifcations on Visit Updates
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(UpdatePlaceMark), name: Notification.Name("VisitPlaceMark"), object: nil)
-        var placemarks = [MKPlacemark]()
+        self.updateMapMarkers()
+
+    }
+    
+    func updateMapMarkers(){
         mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
+        var placemarks = [MKPlacemark]()
+        self.userVisits = application.userVisits
         self.userLocations = application.userLocations
-        for userLocation:UserLocation in userLocations{
-            if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                return;
+        
+        if(self.mapTypeSegment.selectedSegmentIndex == 0){
+            
+            for userLocation:UserLocation in userVisits{
+                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
+                    return;
+                }
+                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
+                let userdict = UserLocation.getAddressDict(location: userLocation)
+                let radius = CLLocationDistance.init(exactly: userLocation.HorizontalAccuracy ?? 25.0)
+                let chiis = MKCircle.init(center: coordinate, radius: radius!)
+                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
+                print("place --->")
+                print(mapMarker)
+                placemarks.append(mapMarker)
+                mapView.addOverlay(chiis)
             }
-            let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-            let userdict = UserLocation.getAddressDict(location: userLocation)
-            let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-            print("place --->")
-            print(mapMarker)
-            placemarks.append(mapMarker)
+            
+            
+            
+            mapView.addAnnotations(placemarks)
+            
+            
+        }else if (self.mapTypeSegment.selectedSegmentIndex == 1){
+            
+            for userLocation:UserLocation in userLocations{
+                print(userLocation)
+                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
+                    return;
+                }
+                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
+                let userdict = UserLocation.getAddressDict(location: userLocation)
+                let radius = CLLocationDistance.init(exactly: userLocation.HorizontalAccuracy ?? 200.0)
+                let chiis = MKCircle.init(center: coordinate, radius: radius!)
+                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
+                print("place --->")
+                print(mapMarker)
+                placemarks.append(mapMarker)
+                mapView.addOverlay(chiis)
+            }
+            mapView.addAnnotations(placemarks)
+            
+        }else{
+            
+            for userLocation:UserLocation in userLocations{
+                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
+                    return;
+                }
+                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
+                let userdict = UserLocation.getAddressDict(location: userLocation)
+                let radius = CLLocationDistance.init(exactly: userLocation.HorizontalAccuracy ?? 100.0)
+                let chiis = MKCircle.init(center: coordinate, radius: radius!)
+                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
+                print("place --->")
+                print(mapMarker)
+                placemarks.append(mapMarker)
+                mapView.addOverlay(chiis)
+            }
+            mapView.addAnnotations(placemarks)
+            
+            for userLocation:UserLocation in userVisits{
+                if(userLocation.Latitude == nil || userLocation.Longitude == nil){
+                    return;
+                }
+                let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
+                let userdict = UserLocation.getAddressDict(location: userLocation)
+                let radius = CLLocationDistance.init(exactly: userLocation.HorizontalAccuracy ?? 25.0)
+                let chiis = MKCircle.init(center: coordinate, radius: radius!)
+                let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
+                print("place --->")
+                print(mapMarker)
+                placemarks.append(mapMarker)
+                mapView.addOverlay(chiis)
+            }
+            mapView.addAnnotations(placemarks)
             
         }
-        
-        
-        
-        
-        mapView.addAnnotations(placemarks)
         let viewRegion = MKCoordinateRegion(center: placemarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
         mapView.setRegion(viewRegion, animated: true)
         self .updateMapSettings()
-       
     }
+    
+    
+    
     func updateMapSettings(){
         mapView .showsCompass = true
         mapView .showsScale = true
@@ -162,31 +175,17 @@ class MapViewController: UIViewController {
         mapView.showsUserLocation = !mapView.showsUserLocation
         }
     }
+    
+    
     @objc func UpdatePlaceMark(_ notification:Notification) {
-        var placemarks = [MKPlacemark]()
+        
         mapView.removeAnnotations(mapView.annotations)
-        self.userLocations = application.userLocations
-        for userLocation:UserLocation in userLocations{
-            if(userLocation.Latitude == nil || userLocation.Longitude == nil){
-                return;
-            }
-            let coordinate = CLLocationCoordinate2D.init(latitude: userLocation.Latitude!, longitude: userLocation.Longitude!)
-            let userdict = UserLocation.getAddressDict(location: userLocation)
-            let mapMarker = MKPlacemark.init(coordinate: coordinate, addressDictionary:userdict)
-            print("place --->")
-            print(mapMarker)
-            placemarks.append(mapMarker)
-            
-        }
         
-        
-        
-        
-        mapView.addAnnotations(placemarks)
-        let viewRegion = MKCoordinateRegion(center: placemarks[0].coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
-        mapView.setRegion(viewRegion, animated: true)
+        self .updateMapMarkers()
         self .updateMapSettings()
-    }    /*
+    }
+    
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -195,5 +194,7 @@ class MapViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+   
 
 }

@@ -18,13 +18,13 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lvd-UV-hG7">
                     <rect key="frame" x="204.5" y="0.0" width="5" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.19376453760000001" green="0.50850099329999998" blue="0.85232251879999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="tintColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="5" id="SXf-xw-RTH"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="lvd-UV-hG7" secondAttribute="bottom" id="KLS-hY-xoe"/>
                 <constraint firstItem="lvd-UV-hG7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RHy-EO-rBi"/>

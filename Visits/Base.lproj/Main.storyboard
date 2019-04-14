@@ -125,10 +125,10 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="locationCell" rowHeight="183" id="ZOP-Gg-Jz4" customClass="LocationTableViewCell" customModule="Visits" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="301" width="414" height="183"/>
+                                <rect key="frame" x="0.0" y="300.5" width="414" height="183"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZOP-Gg-Jz4" id="tBH-jf-Jxi">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="183"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="182.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="100" translatesAutoresizingMaskIntoConstraints="NO" id="dGD-wz-i00">

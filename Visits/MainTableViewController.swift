@@ -51,6 +51,7 @@ class MainTableViewController: UITableViewController {
             mapView.mapType = MKMapType.mutedStandard
             
         }
+       
     }
     //when the visit button chnages reload the table model and refresh
     @IBAction func vistTypeChanged(_ sender: UISegmentedControl) {
@@ -263,15 +264,21 @@ class MainTableViewController: UITableViewController {
         let place = self.tableData[indexPath.section]
         cell.MapImage.image = UIImage.init(contentsOfFile: "default-placeholder.png")
      
-        
+       
+    
        
         //let street0  = (place.Name ?? "")
         let street1  = (place.Name ?? "") + " " + (place.City ?? "")
         let street2  = (place.State ?? "") + " " + (place.CountryCode ?? "")
         let street3  = (place.Country ?? "")
         
-        let stringAddress = street1 + " " + street2 + " " + street3
-       
+        var stringAddress = street1 + " " + street2 + " " + street3
+        if let places = place.AreasOfInterest{
+            for string:String in places{
+                stringAddress = stringAddress + "  \n \(string)"
+            }
+            
+        }
         
         
         

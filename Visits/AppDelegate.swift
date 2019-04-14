@@ -72,18 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-        print(self.userLocations.readJSONData(fileName: self.LOCATION_FILENAME))
-        print(self.userVisits.readJSONData(fileName: self.VISIT_FILENAME))
-        
-        for location:UserLocation in self.userLocations{
-            print("******* locations *****")
-            print(location)
-        }
-        for visit:UserLocation in self.userVisits{
-            print("****** Visits ******")
-            print(visit)
-        }
-        
+      
         
     }
 
@@ -338,7 +327,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 }
 
 extension Decodable{
-    
+    //read from disc and decode JSON
     mutating func readJSONData(fileName: String ) {
       
         
